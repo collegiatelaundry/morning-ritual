@@ -198,6 +198,21 @@
   .cal-day.lightgreen { background: #a8c8bd; color: #2d3436; font-weight: 650; }
   .cal-day.blue { background: #7fa3c4; color: #fff; font-weight: 650; }
   .cal-day.violet { background: #f0dfa0; color: #6b5a23; font-weight: 650; }
+  .mem-month { font-size: .72rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--gold); margin: 14px 0 6px; }
+  .mem-item { display: flex; gap: 10px; font-size: .88rem; line-height: 1.4; margin: 6px 0; }
+  .mem-date { flex: 0 0 52px; color: var(--ink-soft); font-size: .78rem; padding-top: 1px; }
+  .mem-text { flex: 1; white-space: pre-wrap; }
+  .photo-corner {
+    position: absolute; top: -1px; right: -1px; width: 0; height: 0; pointer-events: none;
+    border-style: solid; border-width: 0 15px 15px 0; border-color: transparent;
+    border-top-right-radius: 8px;
+    filter: drop-shadow(-1px 1px 0 rgba(255, 255, 255, .85));
+  }
+  .photo-corner.pc-travel { border-right-color: #1d4034; }
+  .photo-corner.pc-sick { border-right-color: #c0392b; }
+  .cal-legend .corner-dot { display: inline-block; width: 0; height: 0; border-style: solid; border-width: 0 10px 10px 0; border-color: transparent; vertical-align: middle; }
+  .cal-legend .corner-dot.pc-travel { border-right-color: #1d4034; }
+  .cal-legend .corner-dot.pc-sick { border-right-color: #c0392b; }
   .cal-day.today { border-color: var(--gold); color: var(--gold); font-weight: 650; }
   .cal-day.today.green, .cal-day.today.gold-day, .cal-day.today.blue { color: #fff; }
   .cal-day.today.lightgreen { color: #2d3436; }
@@ -577,7 +592,7 @@
 
   <p class="footer-note">
     Consistency beats intensity<br><br>
-    <span id="appVersion">v2026-10-12.5</span>
+    <span id="appVersion">v2026-10-12.6</span>
   </p>
   </div><!-- /viewRitual -->
 
@@ -608,8 +623,8 @@
       <div class="cal-grid" id="calGrid"></div>
       <div class="cal-legend">
         <span class="dot dg"></span> logged ·
-        <span class="dot dv2"></span> travel ·
-        <span class="dot db"></span> sick
+        <span class="corner-dot pc-travel"></span> travel ·
+        <span class="corner-dot pc-sick"></span> sick
       </div>
       <div class="cal-legend"><span id="calTotal">0 days logged</span></div>
       <div class="assimil-note">Tap any day for its details, sick/travel marking, and body notes. Yesterday and the day before can be backfilled from there.</div>
@@ -687,6 +702,18 @@
       <div class="assimil-note" id="exEmpty">Log how you moved in the evening check-in — it lands here.</div>
     </div>
 
+    <div class="phase-label collapser" data-sec="memories">Memory Keeping<span class="fold">▾</span></div>
+    <div id="sec-memories" class="cal-card">
+      <div class="cal-head">
+        <button class="cal-nav" id="memPrev" aria-label="Previous year">‹</button>
+        <strong id="memTitle"></strong>
+        <button class="cal-nav" id="memNext" aria-label="Next year">›</button>
+      </div>
+      <div id="memList"></div>
+      <div class="assimil-note" id="memEmpty">Your evening Memory keeping notes gather here, month by month — a snapshot of the year.</div>
+      <div class="grace-row"><button class="grace-btn" id="memSave">Save this year as text</button></div>
+    </div>
+
     <div class="phase-label collapser" data-sec="patterns">Patterns<span class="fold">▾</span></div>
     <div class="week-card" id="weekCard">No data yet — patterns appear after a few mornings.</div>
 
@@ -760,7 +787,7 @@
       steps: [
       { t: "Meditate or make time for stillness", m: "10 min", g: "choice",
         d: "Your practice: slow stretching with breath or simply do nothing." },
-      { t: "Read something that matters", m: "20–30 min", g: "choice",
+      { t: "Slow, mindful reading", m: "20–30 min", g: "choice",
         d: "Feeding the mind and the soul before the world makes demands of it is what turns a routine into a ritual." },
       { t: "Morning pages", m: "20 min", g: "choice",
         d: "Longhand, stream of consciousness, no editing and no audience. Whatever is in the head goes onto the page." }
@@ -797,8 +824,11 @@
     { label: "Wind Down", time: "21:00 – 22:00", steps: [
       { t: "Shutdown by 9:30 pm", m: "2 min",
         d: "Phone on the bookshelf, laptop closed" },
+      { t: "Memory keeping", m: "5 min", autoTick: true,
+        d: "Highlights of the day, things I really loved, notable moments.",
+        input: { key: "memories", multiline: true, placeholder: "Today's highlights…" } },
       { t: "Update my Hobonichi", m: "5 min",
-        d: "Update your physical journal — any notable highlights or what happened today." },
+        d: "Update my journal on notable highlights, thoughts and ideas" },
       { t: "Evening mood check", m: "1 min", kind: "mood", logKey: "eveningMood", feelings: true,
         d: "Where did the day land, 1–10? And which feeling colored the day?" }
     ]}
@@ -1584,8 +1614,12 @@
       const key = dateKey(new Date(y, m, d));
       const e = dayLog[key];
       let cls = null;
-      if (graceSet.has(key)) cls = graceMap[key] === "travel" ? "violet" : "blue";
-      else if (isLogged(e) || historySet.has(key)) cls = "green";
+      if (isLogged(e) || historySet.has(key)) cls = "green";
+      if (graceSet.has(key)) {
+        const corner = document.createElement("span");
+        corner.className = "photo-corner " + (graceMap[key] === "travel" ? "pc-travel" : "pc-sick");
+        cell.appendChild(corner);
+      }
       if (cls) cell.classList.add(cls);
       // mood star: avg of morning+evening mood — 8+ mustard, 6–7.9 normal, below 6 none
       if (e && e.notLogged) cell.classList.add("nolog");
@@ -1645,6 +1679,7 @@
     if (e.feeling && FEEL_BY_KEY[e.feeling]) parts.push("Feeling: <b>" + FEEL_BY_KEY[e.feeling].label + "</b>" + (e.feelingWhy ? " — " + e.feelingWhy : ""));
     const mv = moveStickers(e, key);
     if (mv.length || e.moveActivity) parts.push("Moved: " + (mv.length ? "<b>" + mv.join(", ") + "</b>" : "") + (e.moveActivity ? (mv.length ? " — " : "") + e.moveActivity : ""));
+    if (e.memories) parts.push("Memories: " + String(e.memories).replace(/</g, "&lt;"));
     if (e.mit) parts.push("MIT: “" + e.mit + "”" + (e.mitDone === true ? " — accomplished" : e.mitDone === false ? " — not accomplished" : ""));
     return parts.join(" · ");
   }
@@ -1868,7 +1903,7 @@
   }
 
   // ---- collapsible sections (open/closed state remembered) ----
-  const COLLAPSE_DEFAULT_OPEN = { ritual: true, sleep: true, mood: true, exercise: true, patterns: false, export: false, sync: false, photo: false };
+  const COLLAPSE_DEFAULT_OPEN = { memories: true, ritual: true, sleep: true, mood: true, exercise: true, patterns: false, export: false, sync: false, photo: false };
   let collapseState = {};
   try { collapseState = JSON.parse(store.get("ritual-collapse") || "{}") || {}; } catch (e) {}
   document.querySelectorAll(".collapser").forEach(h => {
@@ -1888,6 +1923,58 @@
     });
     apply();
   });
+
+  // ---- memory keeping: the year's highlights, month by month ----
+  let memYear = ritualNow().getFullYear();
+  function memEntries(year) {
+    const log = logGet();
+    return Object.keys(log).sort()
+      .filter(d => d.slice(0, 4) === String(year) && log[d] && log[d].memories && String(log[d].memories).trim())
+      .map(d => ({ d, text: String(log[d].memories).trim() }));
+  }
+  function renderMemories() {
+    const list = document.getElementById("memList");
+    if (!list) return;
+    document.getElementById("memTitle").textContent = memYear;
+    list.innerHTML = "";
+    const items = memEntries(memYear);
+    let lastMonth = -1;
+    items.forEach(it => {
+      const dt = new Date(it.d + "T00:00:00");
+      if (dt.getMonth() !== lastMonth) {
+        lastMonth = dt.getMonth();
+        const h = document.createElement("div");
+        h.className = "mem-month";
+        h.textContent = MONTHS[lastMonth];
+        list.appendChild(h);
+      }
+      const row = document.createElement("div");
+      row.className = "mem-item";
+      const dd = document.createElement("span");
+      dd.className = "mem-date";
+      dd.textContent = dt.toLocaleDateString("en-GB", { weekday: "short", day: "numeric" });
+      const tx = document.createElement("span");
+      tx.className = "mem-text";
+      tx.textContent = it.text;
+      row.appendChild(dd); row.appendChild(tx);
+      list.appendChild(row);
+    });
+    document.getElementById("memEmpty").hidden = items.length > 0;
+    document.getElementById("memSave").hidden = items.length === 0;
+  }
+  document.getElementById("memPrev").addEventListener("click", () => { memYear--; renderMemories(); });
+  document.getElementById("memNext").addEventListener("click", () => { memYear++; renderMemories(); });
+  document.getElementById("memSave").addEventListener("click", () => {
+    const items = memEntries(memYear);
+    let out = "Memory Keeping — " + memYear + "\n", lastMonth = -1;
+    items.forEach(it => {
+      const dt = new Date(it.d + "T00:00:00");
+      if (dt.getMonth() !== lastMonth) { lastMonth = dt.getMonth(); out += "\n" + MONTHS[lastMonth].toUpperCase() + "\n"; }
+      out += dt.toLocaleDateString("en-GB", { weekday: "short", day: "numeric", month: "short" }) + " — " + it.text.replace(/\n+/g, " / ") + "\n";
+    });
+    deliver(out, "memories-" + memYear + ".txt", "text/plain;charset=utf-8");
+  });
+  renderMemories();
 
   // ---- weekly patterns & long-term trends ----
   function renderWeek() {
@@ -2002,7 +2089,7 @@
     document.body.classList.toggle("evening-mode", name === "evening");
     document.body.classList.toggle("morning-mode", name === "morning");
     if (name === "evening") refreshMitDisplay();
-    if (name === "calendar") { renderCalendar(); renderWeek(); renderSleep(); renderMood(); renderExercise(); renderSyncWarn(); }
+    if (name === "calendar") { renderCalendar(); renderMemories(); renderWeek(); renderSleep(); renderMood(); renderExercise(); renderSyncWarn(); }
     try { window.scrollTo(0, 0); } catch (e) {}
   }
   Object.keys(tabs).forEach(k => tabs[k].addEventListener("click", () => showTab(k)));
@@ -2066,7 +2153,7 @@
         ...habitNames.map(h => "Morning: " + h),
         "Evening mood (1-10)", "Feeling", "Feeling why", "MIT accomplished", "MIT reason (if not)", "Body notes",
         ...eveNames.map(h => "Evening: " + h),
-        "Move type", "Move notes / other activity", "Steps", "Bonds (what we did)", "Out of the house (weekend)", "Monday's MIT (Sunday)",
+        "Move type", "Move notes / other activity", "Steps", "Bonds (what we did)", "Memory keeping", "Out of the house (weekend)", "Monday's MIT (Sunday)",
         "Assimil lessons finished"
       ].map(esc).join(",")];
       Array.from(allDates).sort().forEach(d => {
@@ -2100,6 +2187,7 @@
           e.moveActivity || "",
           (e.steps !== undefined && e.steps !== null) ? e.steps : "",
           e.bondsNote || "",
+          e.memories || "",
           e.outOfHouse || "",
           e.mondayMit || "",
           (lessonsByDate[d] || []).join(" ")
