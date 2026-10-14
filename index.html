@@ -13,7 +13,7 @@
 <meta name="theme-color" content="#f6f4ef">
 <style>
   :root {
-    --sq1: #3b3226; --sq2: #6e5a2a; --sq3: #a8862a; --sq4: #e0b42a; --sq5: #ffd60a;
+    --sq1: #6e5a2a; --sq2: #a8862a; --sq3: #e0b42a; --sq4: #ffd60a; --sq5: #fff23a;
     --bg: #f6f4ef;
     --card: #ffffff;
     --ink: #2d3436;
@@ -27,7 +27,7 @@
   }
   @media (prefers-color-scheme: dark) {
     :root {
-      --sq1: #3b3226; --sq2: #6e5a2a; --sq3: #a8862a; --sq4: #e0b42a; --sq5: #ffd60a;
+      --sq1: #6e5a2a; --sq2: #a8862a; --sq3: #e0b42a; --sq4: #ffd60a; --sq5: #fff23a;
       --bg: #1c1f22;
       --card: #26292d;
       --ink: #e8e6e1;
@@ -238,6 +238,47 @@
   .lesson.done { background: var(--accent); border-color: var(--accent); color: #fff; }
   .lesson.next { border-color: var(--gold); color: var(--gold); }
 
+  .export-row[hidden] { display: none; }
+  /* ---- Week tab: weekly review + monthly trends ---- */
+  .wr-card { background: var(--card); border-radius: 16px; box-shadow: var(--shadow); padding: 16px 16px 6px; margin-bottom: 8px; color: var(--ink); }
+  .wr-title { display: flex; justify-content: space-between; align-items: baseline; }
+  .wr-title strong { font-size: 1.05rem; }
+  .wr-title span { font-size: .78rem; color: var(--ink-soft); }
+  .wr-days { display: grid; grid-template-columns: repeat(7, 1fr); gap: 5px; margin: 12px 0 2px; font-size: .62rem; font-weight: 700; letter-spacing: .06em; color: var(--ink-soft); text-align: center; }
+  .wr-row { padding: 10px 0; border-top: 1px solid var(--line); }
+  .wr-head { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; margin-bottom: 7px; }
+  .wr-label { font-size: .88rem; font-weight: 650; }
+  .wr-sub { display: block; font-size: .7rem; font-weight: 500; color: var(--ink-soft); margin-top: 1px; }
+  .wr-val { font-size: .9rem; font-weight: 700; text-align: right; white-space: nowrap; }
+  .wr-val.met { color: var(--accent); }
+  .wr-val .wr-goaltxt { font-size: .72rem; font-weight: 600; color: var(--ink-soft); margin-left: 4px; }
+  .wr-strip { display: grid; grid-template-columns: repeat(7, 1fr); gap: 5px; }
+  .wr-cell { height: 26px; border-radius: 7px; background: #f4f1ea; border: 1px dashed #d9d3c6;
+    display: flex; align-items: center; justify-content: center; font-size: .72rem; font-weight: 700; line-height: 1; color: var(--ink); }
+  .wr-cell.on { border-style: solid; border-color: transparent; }
+  .wr-cell.today { outline: 2px solid var(--gold); outline-offset: 1px; }
+  .wr-cell.future { opacity: .4; }
+  .wr-cell.yes-good { background: var(--accent); color: #fff; }
+  .wr-cell.no-soft { background: #e9e5dc; color: var(--ink-soft); border-style: solid; border-color: transparent; }
+  .wr-cell.late { background: #c96b6b; color: #fff; }
+  .wr-cell.calm { background: var(--accent-soft); }
+  .wr-cell .wr-emo { font-size: .9rem; }
+  .wr-goal { height: 6px; border-radius: 4px; background: #ece8df; margin-top: 8px; overflow: hidden; }
+  .wr-goal i { display: block; height: 100%; background: var(--accent); border-radius: 4px; }
+  .wr-goal.met i { background: #52b048; }
+  .wr-foot { font-size: .72rem; color: var(--ink-soft); padding: 8px 0 10px; border-top: 1px solid var(--line); }
+  .mt-item { display: flex; gap: 10px; padding: 9px 0; border-top: 1px solid var(--line); font-size: .9rem; line-height: 1.4; }
+  .mt-item:first-child { border-top: none; padding-top: 2px; }
+  .mt-ico { flex: 0 0 22px; font-size: 1rem; }
+  .mt-n { display: block; font-size: .72rem; color: var(--ink-soft); margin-top: 2px; }
+  .wr-cell.wr-sq1 { background: var(--sq1); } .wr-cell.wr-sq2 { background: var(--sq2); } .wr-cell.wr-sq3 { background: var(--sq3); }
+  .wr-cell.wr-sq4 { background: var(--sq4); } .wr-cell.wr-sq5 { background: var(--sq5); }
+  .wr-cell.wr-st1 { background: #16301f; } .wr-cell.wr-st2 { background: #24502f; } .wr-cell.wr-st3 { background: #357a40; }
+  .wr-cell.wr-st4 { background: #52b048; } .wr-cell.wr-st5 { background: #7fe85a; }
+  .wr-cell.wr-fb { background: #7fa3c4; color: #fff; } .wr-cell.wr-fy { background: #e8c85a; color: #4a3d14; }
+  .wr-cell.wr-fg { background: #4a7c6f; color: #fff; } .wr-cell.wr-fr { background: #c96b6b; color: #fff; }
+  .wr-cell.wr-fgr { background: #a8adb3; color: #2d3436; }
+
   .export-row {
     display: flex; align-items: center; justify-content: space-between; gap: 12px;
     background: var(--card); border-radius: 16px; box-shadow: var(--shadow);
@@ -256,6 +297,7 @@
     font-size: .85rem; font-family: inherit; color: var(--ink); background: var(--bg);
     resize: vertical;
   }
+  textarea.grow-box { resize: none; overflow: hidden; line-height: 1.4; min-height: 0; }
   .mit-reason::placeholder, .step-input::placeholder { color: var(--ink-soft); font-style: italic; }
 
   .cal-day.selected { border-color: var(--gold); box-shadow: 0 0 0 2px rgba(176,141,79,.3); cursor: pointer; }
@@ -297,6 +339,14 @@
     font-size: .85rem; font-family: inherit; color: var(--ink); background: var(--bg);
   }
   .wake-time-input { width: 130px; }
+  .mood-slider-row { display: flex; align-items: center; gap: 12px; margin-top: 10px; }
+  .mood-slider { flex: 1; accent-color: var(--accent); height: 28px; }
+  body.evening-mode .mood-slider { accent-color: #8fa3d0; }
+  .mood-slider.unset { opacity: .45; }
+  body.evening-mode .mood-slider-val { color: #e6ecf8; }
+  .mood-slider-val { min-width: 24px; text-align: center; font-weight: 700; font-size: 1.1rem; }
+  .mood-slider-row .sleep-nodata-btn[hidden] { display: none; }
+  .steps-input { width: 150px; margin-top: 8px; }
   .wake-time-row { display: flex; align-items: center; gap: 8px; }
   .wake-now-btn[hidden] { display: none; }
   .wake-notes-label { font-size: 12px; color: var(--ink-soft); margin: 10px 0 2px; letter-spacing: .02em; }
@@ -317,8 +367,8 @@
   }
   .sleep-nodata-btn.on { opacity: 1; color: var(--accent); font-weight: 650; text-decoration: none; }
   .cal-day.sq1 { background: var(--sq1); color: #e8e6e1; font-weight: 650; }
-  .cal-day.sq2 { background: var(--sq2); color: #e8e6e1; font-weight: 650; }
-  .cal-day.sq3 { background: var(--sq3); color: #fff; font-weight: 650; }
+  .cal-day.sq2 { background: var(--sq2); color: #fff; font-weight: 650; }
+  .cal-day.sq3 { background: var(--sq3); color: #3b3226; font-weight: 650; }
   .cal-day.sq4 { background: var(--sq4); color: #3b3226; font-weight: 650; }
   .cal-day.sq5 { background: var(--sq5); color: #3b3226; font-weight: 650; }
   .cal-star {
@@ -361,6 +411,14 @@
   .mit-reason[hidden], .step-input[hidden] { display: none; }
   .ex-day .ex-glyph { display: flex; justify-content: center; align-items: center; gap: 0; }
   .ex-day .ex-glyph.multi .ex-sticker { font-size: .8rem; }
+  .ex-day.st1 { background: #16301f; } .ex-day.st1 .ex-num { color: #c9d8cd; }
+  .ex-day.st2 { background: #24502f; } .ex-day.st2 .ex-num { color: #d6e6da; }
+  .ex-day.st3 { background: #357a40; } .ex-day.st3 .ex-num { color: #eef7ef; }
+  .ex-day.st4 { background: #52b048; } .ex-day.st4 .ex-num { color: #10301a; }
+  .ex-day.st5 { background: #7fe85a; } .ex-day.st5 .ex-num { color: #10301a; }
+  .cal-legend .dot.st1 { background: #16301f; } .cal-legend .dot.st2 { background: #24502f; }
+  .cal-legend .dot.st3 { background: #357a40; } .cal-legend .dot.st4 { background: #52b048; }
+  .cal-legend .dot.st5 { background: #7fe85a; }
   .ex-sticker { font-size: 1.15rem; filter: drop-shadow(0 0 1px #fff) drop-shadow(0 0 1px #fff) drop-shadow(0 1px 2px rgba(45,52,54,.35)); }
   .ex-star, .ex-leg-star { color: #c9930f; text-shadow: 0 1px 2px rgba(45, 52, 54, .25); }
   .ex-chk, .ex-leg-chk { color: var(--accent); font-weight: 800; }
@@ -592,7 +650,7 @@
 
   <p class="footer-note">
     Consistency beats intensity<br><br>
-    <span id="appVersion">v2026-10-12.6</span>
+    <span id="appVersion">v2026-10-14.7</span>
   </p>
   </div><!-- /viewRitual -->
 
@@ -606,6 +664,13 @@
     <p class="footer-note">
       The evening ritual is the morning ritual's quiet twin — it protects tomorrow's first hour from tonight.
     </p>
+  </div>
+
+  <div id="viewWeek" hidden>
+    <div class="phase-label">This week</div>
+    <div id="weekReview"></div>
+    <div class="phase-label">This month <span class="phase-time">last 30 days</span></div>
+    <div id="monthTrends" class="cal-card"></div>
   </div>
 
   <div id="viewCalendar" hidden>
@@ -680,12 +745,12 @@
       </div>
       <div class="cal-grid" id="moodCal"></div>
       <div class="cal-legend">
-        <span class="dot dfb"></span> tired / down ·
-        <span class="dot dfy"></span> excited & happy ·
-        <span class="dot dfg"></span> peaceful & content
+        <span class="dot dfb"></span> tired/down ·
+        <span class="dot dfy"></span> excited/happy ·
+        <span class="dot dfg"></span> peaceful/content
       </div>
       <div class="cal-legend">
-        <span class="dot dfr"></span> stressed & anxious ·
+        <span class="dot dfr"></span> stressed/anxious ·
         <span class="dot dfgr"></span> neutral
       </div>
       <div class="assimil-note" id="moodEmpty">Log the day's feeling in the evening check-in — its color lands here.</div>
@@ -698,8 +763,15 @@
         <span>Mo</span><span>Tu</span><span>We</span><span>Th</span><span>Fr</span><span>Sa</span><span>Su</span>
       </div>
       <div class="cal-grid" id="exCal"></div>
-      <div class="cal-legend"><span class="ex-sticker">🧘‍♀️</span> yoga · <span class="ex-sticker">🏃‍♀️</span> run · <span class="ex-sticker">🏋️‍♀️</span> workout · <span class="ex-sticker">🚶‍♀️</span> other</div>
-      <div class="assimil-note" id="exEmpty">Log how you moved in the evening check-in — it lands here.</div>
+      <div class="cal-legend"><span class="ex-sticker">🚶‍♀️</span> walk · <span class="ex-sticker">🧘‍♀️</span> yoga · <span class="ex-sticker">🏋️‍♀️</span> workout · <span class="ex-sticker">🤸‍♀️</span> other</div>
+      <div class="cal-legend">
+        Steps: <span class="dot st1"></span> &lt;3k ·
+        <span class="dot st2"></span> 3k+ ·
+        <span class="dot st3"></span> 5k+ ·
+        <span class="dot st4"></span> 7k+ ·
+        <span class="dot st5"></span> 8k+
+      </div>
+      <div class="assimil-note" id="exEmpty">Log how you moved and your steps in the evening — they land here.</div>
     </div>
 
     <div class="phase-label collapser" data-sec="memories">Memory Keeping<span class="fold">▾</span></div>
@@ -763,6 +835,7 @@
 <nav class="tabbar">
   <button class="tab active" id="tabRitual">Morning</button>
   <button class="tab" id="tabEvening">Evening</button>
+  <button class="tab" id="tabWeek">Week</button>
   <button class="tab" id="tabCalendar">Calendar</button>
 </nav>
 
@@ -774,23 +847,23 @@
       { t: "Late screens last night?", m: "1 min", kind: "late" },
       { t: "Sleep check", m: "1 min", kind: "sleep",
         d: "From the watch: last night's sleep score, and how it actually felt." },
-      { t: "Morning mood check", m: "1 min", kind: "mood", logKey: "mood",
+      { t: "Morning mood check", m: "1 min", kind: "mood", logKey: "mood", slider: true,
         d: "Right after waking — how do you feel?" },
       { t: "Daily German", m: "5 min",
         d: "Open Duolingo, do your lesson, close it." },
-      { t: "Open the windows", m: "2 min", g: "optional", noExceed: true,
-        d: "Back to your room, windows wide open. Let the morning air in — and drink a small glass of water while you're at it." },
-      { t: "Brew tea & 5 min quick clean-up", m: "15 min" }
+      { t: "Open the windows, brew tea and five min quick clean-up", m: "15 min" }
     ]},
     { label: "The Ritual Core",
-      note: "Choose from the three practices below — ticking any of them fulfils this part of the ritual.",
+      note: "Choose from the four practices below — ticking any of them fulfils this part of the ritual.",
       steps: [
-      { t: "Meditate or make time for stillness", m: "10 min", g: "choice",
+      { t: "Meditate or make time for stillness", m: "5–10 min", g: "choice",
         d: "Your practice: slow stretching with breath or simply do nothing." },
       { t: "Slow, mindful reading", m: "20–30 min", g: "choice",
         d: "Feeding the mind and the soul before the world makes demands of it is what turns a routine into a ritual." },
       { t: "Morning pages", m: "20 min", g: "choice",
-        d: "Longhand, stream of consciousness, no editing and no audience. Whatever is in the head goes onto the page." }
+        d: "Longhand, stream of consciousness, no editing and no audience. Whatever is in the head goes onto the page." },
+      { t: "Morning walk", m: "10–20 min", g: "choice",
+        d: "Step out into the morning light. Let the sun warm your face, move your body, and walk your way into the day." }
     ]},
     { label: "Starting-up", time: "8:00 – 9:15", steps: [
       { t: "Observe this moment", m: "3 min", g: "optional", noExceed: true,
@@ -806,7 +879,8 @@
     { label: "Check In", steps: [
       { t: "Walk after lunch", m: "10–20 min", g: "optional", noExceed: true },
       { t: "Did I accomplish the most important thing today?", m: "1 min", kind: "mit", logKey: "mitDone",
-        d: "No judgment, just data" }
+        d: "No judgment, just data" },
+      { t: "Daily Chinese", m: "5–10 min" }
     ]},
     { label: "Tend", steps: [
       { t: "Bonds & connection check-in",
@@ -827,10 +901,8 @@
       { t: "Memory keeping", m: "5 min", autoTick: true,
         d: "Highlights of the day, things I really loved, notable moments.",
         input: { key: "memories", multiline: true, placeholder: "Today's highlights…" } },
-      { t: "Update my Hobonichi", m: "5 min",
-        d: "Update my journal on notable highlights, thoughts and ideas" },
-      { t: "Evening mood check", m: "1 min", kind: "mood", logKey: "eveningMood", feelings: true,
-        d: "Where did the day land, 1–10? And which feeling colored the day?" }
+      { t: "Mood of the day", m: "1 min", kind: "mood", logKey: "eveningMood", feelings: true, slider: true,
+        d: "How would I rate the whole day, 1–10?" }
     ]}
   ];
 
@@ -920,7 +992,7 @@
 
   // (streaks removed by design — most of the time is good enough; history alone tells the story)
 
-  const MOVE_TYPES = ["Yoga", "Run", "Workout"];
+  const MOVE_TYPES = ["Walk", "Yoga", "Workout"];
   // which stickers a day earns — from the buttons, or from words in older free-text entries
   const MOVE_BUTTONS_SINCE = "2026-10-13";
   function moveStickers(e, key) {
@@ -928,27 +1000,46 @@
     // older free-text entries get stickers from their words; newer notes are just notes
     const txt = (key && key < MOVE_BUTTONS_SINCE && !e.moveTypes) ? String(e.moveActivity || "").toLowerCase() : "";
     if (types.indexOf("Yoga") < 0 && /yoga|stretch|pilates/.test(txt)) types.push("Yoga");
-    if (types.indexOf("Run") < 0 && /\brun|\bjog/.test(txt)) types.push("Run");
+    if (/\brun|\bjog/.test(txt) || types.indexOf("Run") >= 0) types.push("Other");
     if (types.indexOf("Workout") < 0 && /workout|gym|weights|strength/.test(txt)) types.push("Workout");
     const out = MOVE_TYPES.filter(t => types.indexOf(t) >= 0);
+    if (types.indexOf("Other") >= 0) out.push("Other");
     // "Other": newer days — notes typed with no button picked; older days — a walk, hike, swim…
     const isNew = !key || key >= MOVE_BUTTONS_SINCE || e.moveTypes;
     const note = String(e.moveActivity || "").trim();
-    if (!out.length && note && (isNew ? !(e.moveTypes || []).length : /walk|hike|swim|bike|cycl|danc|tennis|steps/i.test(note))) out.push("Other");
+    if (out.indexOf("Other") < 0 && !out.length && note && (isNew ? !(e.moveTypes || []).length : /hike|swim|bike|cycl|danc|tennis/i.test(note))) out.push("Other");
     return out;
   }
-  const STICKER = { Yoga: "🧘‍♀️", Run: "🏃‍♀️", Workout: "🏋️‍♀️", Other: "🚶‍♀️" };
+  const STICKER = { Walk: "🚶‍♀️", Yoga: "🧘‍♀️", Workout: "🏋️‍♀️", Other: "🤸‍♀️" };
 
   // the five qualitative feelings (evening check-in + feelings calendar)
   const FEELINGS = [
-    { k: "tired", label: "Tired / down", cls: "fb" },
-    { k: "excited", label: "Excited & happy", cls: "fy" },
-    { k: "peaceful", label: "Peaceful & content", cls: "fg" },
-    { k: "stressed", label: "Stressed & anxious", cls: "fr" },
+    { k: "tired", label: "Tired/down", cls: "fb" },
+    { k: "excited", label: "Excited/happy", cls: "fy" },
+    { k: "peaceful", label: "Peaceful/content", cls: "fg" },
+    { k: "stressed", label: "Stressed/anxious", cls: "fr" },
     { k: "neutral", label: "Neutral", cls: "fgr" }
   ];
   const FEEL_BY_KEY = {};
   FEELINGS.forEach(f => { FEEL_BY_KEY[f.k] = f; });
+
+  // free-text boxes grow with what you type, so the whole entry stays visible
+  function growBox(cls, rows) {
+    const t = document.createElement("textarea");
+    t.className = cls + " grow-box";
+    t.rows = rows || 1;
+    t.dataset.minRows = t.rows;
+    t.addEventListener("input", () => fitBox(t));
+    t.addEventListener("focus", () => fitBox(t));
+    return t;
+  }
+  function fitBox(t) {
+    if (!t || t.hidden || !t.offsetParent) return;
+    t.style.height = "auto";
+    t.style.height = t.scrollHeight + 2 + "px";
+  }
+  function fitAllBoxes() { document.querySelectorAll("textarea.grow-box").forEach(fitBox); }
+  try { window.addEventListener("resize", fitAllBoxes); } catch (e) {}
 
   // shared builder: handles normal steps plus "mood" (1–10 scale) and "mit" (yes/no) steps
   function buildStepList(phases, rootEl, stateArr, onChange, opts) {
@@ -1021,6 +1112,41 @@
           }
           const row = document.createElement("div");
           row.className = "mini-scale";
+          if (s.slider) {
+            // slider version: stays "not rated" until touched, so an untouched day isn't logged as 5
+            row.className = "mood-slider-row";
+            const rng = document.createElement("input");
+            rng.type = "range"; rng.min = 1; rng.max = 10; rng.step = 1; rng.value = 5;
+            rng.className = "mood-slider unset";
+            const out = document.createElement("span");
+            out.className = "mood-slider-val";
+            out.textContent = "–";
+            const clr = document.createElement("button");
+            clr.className = "sleep-nodata-btn";
+            clr.textContent = "clear";
+            const paint = v => {
+              const has = v !== null && v !== undefined;
+              out.textContent = has ? v : "–";
+              rng.classList.toggle("unset", !has);
+              if (has) rng.value = v;
+              clr.hidden = !has;
+            };
+            ["click", "touchstart", "pointerdown"].forEach(t => rng.addEventListener(t, ev => ev.stopPropagation()));
+            rng.addEventListener("input", () => {
+              const v = parseInt(rng.value, 10);
+              logMerge({ [s.logKey]: v });
+              paint(v);
+              refreshMoodDone();
+            });
+            clr.addEventListener("click", ev => {
+              ev.stopPropagation();
+              logMerge({ [s.logKey]: null });
+              paint(null);
+              refreshMoodDone();
+            });
+            row.appendChild(rng); row.appendChild(out); row.appendChild(clr);
+            paint((logGet()[today] || {})[s.logKey]);
+          } else
           for (let v = 1; v <= 10; v++) {
             const b = document.createElement("button");
             b.textContent = v;
@@ -1059,9 +1185,7 @@
               });
               frow.appendChild(b);
             });
-            const why = document.createElement("input");
-            why.type = "text";
-            why.className = "mit-reason";
+            const why = growBox("mit-reason");
             why.placeholder = "Why do you feel this way?";
             why.addEventListener("click", ev => ev.stopPropagation());
             why.addEventListener("input", () => { logMerge({ feelingWhy: why.value || null }); refreshMoodDone(); });
@@ -1083,9 +1207,7 @@
           // last night's screens, answered the next morning; "what pulled me" appears on Yes
           const row = document.createElement("div");
           row.className = "mini-scale mit-row";
-          const why = document.createElement("input");
-          why.type = "text";
-          why.className = "mit-reason";
+          const why = growBox("mit-reason");
           why.placeholder = "What pulled me?";
           why.hidden = true;
           why.addEventListener("click", ev => ev.stopPropagation());
@@ -1111,7 +1233,7 @@
               } else {
                 logMerge({ lateScreens: bool });
                 if (!bool) { logMerge({ lateScreensWhy: null }); why.value = ""; }
-                paintScale(row, val); why.hidden = !bool;
+                paintScale(row, val); why.hidden = !bool; fitBox(why);
                 if (bool) why.focus();
               }
               lateDone();
@@ -1131,9 +1253,7 @@
           // pick any of the three (more than one is fine) and/or type another activity
           const row = document.createElement("div");
           row.className = "mini-scale mit-row";
-          const other = document.createElement("textarea");
-          other.rows = 2;
-          other.className = "step-input";
+          const other = growBox("step-input", 2);
           other.placeholder = "Other activity (hike…) or notes — how it felt, ideas…";
           other.addEventListener("click", ev => ev.stopPropagation());
           function moveDone() {
@@ -1163,8 +1283,23 @@
             row.appendChild(b);
           });
           other.addEventListener("input", () => { logMerge({ moveActivity: other.value || null }); moveDone(); });
+          const stp = document.createElement("input");
+          stp.type = "number";
+          stp.min = 0;
+          stp.inputMode = "numeric";
+          stp.className = "sleep-score-input steps-input";
+          stp.placeholder = "Steps today";
+          stp.addEventListener("click", ev => ev.stopPropagation());
+          stp.addEventListener("input", () => {
+            let v = parseInt(stp.value, 10);
+            if (isNaN(v) || v < 0) v = null;
+            logMerge({ steps: v });
+          });
+          const cs = (logGet()[today] || {}).steps;
+          if (cs !== undefined && cs !== null) stp.value = cs;
           body.appendChild(row);
           body.appendChild(other);
+          body.appendChild(stp);
           const cm = logGet()[today] || {};
           if (cm.moveActivity) other.value = cm.moveActivity;
           paintMove();
@@ -1178,9 +1313,7 @@
           const lbl = document.createElement("div");
           lbl.className = "wake-notes-label";
           lbl.textContent = "Wake up notes";
-          const notes = document.createElement("textarea");
-          notes.rows = 2;
-          notes.className = "step-input";
+          const notes = growBox("step-input", 2);
           notes.placeholder = "How was waking up? Alarm, dreams, groggy, rested…";
           notes.addEventListener("click", ev => ev.stopPropagation());
           function wakeDone() {
@@ -1306,9 +1439,7 @@
           body.appendChild(mitShow);
           const row = document.createElement("div");
           row.className = "mini-scale mit-row";
-          const reason = document.createElement("input");
-          reason.type = "text";
-          reason.className = "mit-reason";
+          const reason = growBox("mit-reason");
           reason.placeholder = "Why not? One honest line…";
           reason.hidden = true;
           reason.addEventListener("click", ev => ev.stopPropagation());
@@ -1333,7 +1464,7 @@
                 if (bool) logMerge({ mitReason: null });
                 paintScale(row, val);
                 reason.hidden = bool;
-                if (!bool) reason.focus();
+                if (!bool) { reason.focus(); fitBox(reason); }
               }
               li.classList.toggle("done", stateArr[i]);
               onChange();
@@ -1361,10 +1492,7 @@
             onChange();
           });
           if (s.input) {
-            const inp = document.createElement(s.input.multiline ? "textarea" : "input");
-            if (!s.input.multiline) inp.type = "text";
-            else inp.rows = 3;
-            inp.className = "step-input";
+            const inp = growBox("step-input", s.input.multiline ? 3 : 1);
             inp.placeholder = s.input.placeholder || "";
             inp.addEventListener("click", ev => ev.stopPropagation());
             inp.addEventListener("input", () => {
@@ -1854,8 +1982,10 @@
       const key = dateKey(new Date(y, m, d));
       const e = log[key] || {};
       const stickers = moveStickers(e, key);
+      const st = (e.steps !== undefined && e.steps !== null && e.steps !== "") ? Number(e.steps) : null;
+      const band = st === null || isNaN(st) ? null : st < 3000 ? 1 : st < 5000 ? 2 : st < 7000 ? 3 : st < 8000 ? 4 : 5;
       const cell = document.createElement("div");
-      cell.className = "cal-day ex-day";
+      cell.className = "cal-day ex-day" + (band ? " st" + band : "");
       const num = document.createElement("span");
       num.className = "ex-num";
       num.textContent = d;
@@ -1867,7 +1997,7 @@
         if (stickers.length > 1) g.classList.add("multi");
         g.innerHTML = stickers.map(t => '<span class="ex-sticker">' + STICKER[t] + '</span>').join("");
         cell.appendChild(g);
-        cell.title = key + " · " + stickers.join(", ") + (e.moveActivity ? " · " + e.moveActivity : "");
+        cell.title = key + " · " + stickers.join(", ") + (e.moveActivity ? " · " + e.moveActivity : "") + (st !== null ? " · " + st + " steps" : "");
       }
       if (key === realToday) cell.classList.add("today");
       cell.addEventListener("click", () => {
@@ -1910,6 +2040,7 @@
     const k = h.dataset.sec;
     const content = h.nextElementSibling;
     if (!content) return;
+    if (k === "export") delete collapseState[k]; // export always opens minimized
     function isOpen() { return (collapseState[k] === undefined) ? !!COLLAPSE_DEFAULT_OPEN[k] : !!collapseState[k]; }
     function apply() {
       content.hidden = !isOpen();
@@ -1923,6 +2054,177 @@
     });
     apply();
   });
+
+  // ---- weekly review: shows on Saturday and Sunday at the top of the evening tab ----
+  function weekKeys(weeksBack) {
+    const base = new Date(today + "T00:00:00");
+    const mon = new Date(base);
+    mon.setDate(base.getDate() - ((base.getDay() + 6) % 7) - 7 * weeksBack);
+    const out = [];
+    for (let i = 0; i < 7; i++) { const d = new Date(mon); d.setDate(mon.getDate() + i); out.push(dateKey(d)); }
+    return out;
+  }
+  const SHUTDOWN_NAMES = ["Shutdown by 9:30 pm", "Exile the phone"];
+  function weekStats(keys) {
+    const log = logGet();
+    const st = { sleep: [], lateYes: 0, lateAns: 0, shut: 0, steps: [], steps7k: 0, moved: 0, mitYes: 0, mitAns: 0, mood: [] };
+    keys.forEach(k => {
+      const e = log[k];
+      if (!e || e.notLogged) return;
+      if (e.sleepScore !== undefined && e.sleepScore !== null) st.sleep.push(Number(e.sleepScore));
+      if (e.lateScreens === true || e.lateScreens === false) { st.lateAns++; if (e.lateScreens) st.lateYes++; }
+      if ((e.eveningHabits || []).some(h => SHUTDOWN_NAMES.indexOf(h) >= 0)) st.shut++;
+      if (e.steps !== undefined && e.steps !== null && e.steps !== "") { st.steps.push(Number(e.steps)); if (Number(e.steps) >= 7000) st.steps7k++; }
+      if (moveStickers(e, k).length) st.moved++;
+      if (e.mitDone === true || e.mitDone === false) { st.mitAns++; if (e.mitDone) st.mitYes++; }
+      if (e.eveningMood) st.mood.push(Number(e.eveningMood));
+    });
+    const avg = a => a.length ? a.reduce((x, y) => x + y, 0) / a.length : null;
+    st.sleepAvg = avg(st.sleep); st.stepsAvg = avg(st.steps); st.moodAvg = avg(st.mood);
+    return st;
+  }
+  const WEEK_GOALS = { sleep: 85, screenFree: 5, shutdown: 5, moved: 5, mit: 5, steps: 7000 };
+  function renderWeekReview() {
+    const box = document.getElementById("weekReview");
+    if (!box) return;
+    const keys = weekKeys(0);
+    const log = logGet();
+    const cur = weekStats(keys);
+    const screenFree = keys.filter(k => log[k] && !log[k].notLogged && log[k].lateScreens === false).length;
+    const fmt = d => new Date(d + "T00:00:00").toLocaleDateString("en-GB", { day: "numeric", month: "short" });
+    const row = (label, sub, val, met, cellFn, extra) => {
+      const cells = keys.map(k => {
+        const e = log[k] && !log[k].notLogged ? log[k] : {};
+        const c = { cls: ["wr-cell"], inner: "" };
+        if (k === today) c.cls.push("today");
+        if (k > today) c.cls.push("future");
+        cellFn(e, k, c);
+        return '<div class="' + c.cls.join(" ") + '">' + c.inner + "</div>";
+      }).join("");
+      return '<div class="wr-row"><div class="wr-head"><span class="wr-label">' + label + (sub ? '<span class="wr-sub">' + sub + "</span>" : "") +
+        '</span><span class="wr-val' + (met ? " met" : "") + '">' + val + "</span></div>" +
+        '<div class="wr-strip">' + cells + "</div>" + (extra || "") + "</div>";
+    };
+    const bar = (v, goal) => v === null ? "" : '<div class="wr-goal' + (v >= goal ? " met" : "") + '"><i style="width:' + Math.min(100, Math.round(v / goal * 100)) + '%"></i></div>';
+    const k1 = v => (Math.round(v / 100) / 10).toFixed(1) + "k";
+    const outOf = (n, g) => n + ' <span class="wr-goaltxt">/ ' + g + "</span>";
+    let html = '<div class="wr-card"><div class="wr-title"><strong>Weekly review</strong><span>' + fmt(keys[0]) + " – " + fmt(keys[6]) + "</span></div>" +
+      '<div class="wr-days"><span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span><span>S</span></div>';
+    // sleep — average against an 85% goal
+    html += row("Sleep", "", outOf(cur.sleepAvg !== null ? Math.round(cur.sleepAvg) + "%" : "–", "85%"), cur.sleepAvg !== null && cur.sleepAvg >= WEEK_GOALS.sleep, (e, k, c) => {
+      if (e.sleepScore !== undefined && e.sleepScore !== null) {
+        const step = e.sleepRating ? RATE_STEP[e.sleepRating] : (e.sleepScore < 50 ? 1 : e.sleepScore < 65 ? 2 : e.sleepScore < 80 ? 3 : e.sleepScore < 92 ? 4 : 5);
+        c.cls.push("on", "wr-sq" + step);
+        c.inner = '<span style="color:' + (step >= 3 ? "#3b3226" : "#fff") + '">' + e.sleepScore + "</span>";
+      }
+    }, bar(cur.sleepAvg, WEEK_GOALS.sleep));
+    // late screens — 5 screen-free nights, 2 nights of slack
+    html += row("Screen-free nights", "", outOf(screenFree, 5), screenFree >= WEEK_GOALS.screenFree, (e, k, c) => {
+      if (e.lateScreens === true) { c.cls.push("on", "late"); c.inner = "●"; }
+      else if (e.lateScreens === false) { c.cls.push("on", "yes-good"); c.inner = "✓"; }
+    });
+    html += row("Shutdown by 9:30", "", outOf(cur.shut, 5), cur.shut >= WEEK_GOALS.shutdown, (e, k, c) => {
+      if ((e.eveningHabits || []).some(h => SHUTDOWN_NAMES.indexOf(h) >= 0)) { c.cls.push("on", "yes-good"); c.inner = "✓"; }
+    });
+    html += row("Steps", "", outOf(cur.stepsAvg !== null ? k1(cur.stepsAvg) : "–", "7k"), cur.stepsAvg !== null && cur.stepsAvg >= WEEK_GOALS.steps, (e, k, c) => {
+      if (e.steps !== undefined && e.steps !== null && e.steps !== "") {
+        const v = Number(e.steps), band = v < 3000 ? 1 : v < 5000 ? 2 : v < 7000 ? 3 : v < 8000 ? 4 : 5;
+        c.cls.push("on", "wr-st" + band);
+        c.inner = '<span style="color:' + (band >= 4 ? "#10301a" : "#eef7ef") + '">' + k1(v).replace(".0k", "k") + "</span>";
+      }
+    }, bar(cur.stepsAvg, WEEK_GOALS.steps));
+    html += row("Moved my body", "", outOf(cur.moved, 5), cur.moved >= WEEK_GOALS.moved, (e, k, c) => {
+      const mv = moveStickers(e, k);
+      if (mv.length) { c.cls.push("on", "calm"); c.inner = '<span class="wr-emo">' + STICKER[mv[0]] + "</span>"; }
+    });
+    html += row("MIT done", "", outOf(cur.mitYes, 5), cur.mitYes >= WEEK_GOALS.mit, (e, k, c) => {
+      if (e.mitDone === true) { c.cls.push("on", "yes-good"); c.inner = "✓"; }
+      else if (e.mitDone === false) { c.cls.push("no-soft"); c.inner = "–"; }
+    });
+    html += row("Mood of the day", "", cur.moodAvg !== null ? cur.moodAvg.toFixed(1) : "–", false, (e, k, c) => {
+      if (e.feeling && FEEL_BY_KEY[e.feeling]) c.cls.push("on", "wr-" + FEEL_BY_KEY[e.feeling].cls);
+      if (e.eveningMood) { c.cls.push("on"); c.inner = String(e.eveningMood); }
+    });
+    html += "</div>";
+    box.innerHTML = html;
+  }
+
+  // ---- monthly trends: only the few patterns that clearly stand out (last 30 days, home days) ----
+  function renderMonthTrends() {
+    const box = document.getElementById("monthTrends");
+    if (!box) return;
+    const log = logGet();
+    const days = [];
+    for (let i = 0; i < 30; i++) {
+      const d = new Date(today + "T00:00:00"); d.setDate(d.getDate() - i);
+      const k = dateKey(d), e = log[k];
+      if (e && !e.notLogged && !graceMap[k]) days.push({ k, e, d });
+    }
+    const avg = a => a.reduce((x, y) => x + y, 0) / a.length;
+    const has = v => v !== undefined && v !== null && v !== "";
+    const found = [];
+    const add = (score, ico, text, n) => found.push({ score, ico, text, n });
+    // A: sleep after late screens
+    {
+      const a = days.filter(x => x.e.lateScreens === true && has(x.e.sleepScore)).map(x => Number(x.e.sleepScore));
+      const b = days.filter(x => x.e.lateScreens === false && has(x.e.sleepScore)).map(x => Number(x.e.sleepScore));
+      if (a.length >= 3 && b.length >= 3 && avg(b) - avg(a) >= 8)
+        add((avg(b) - avg(a)) / 8, "🌙", "After late-screen nights your sleep averages <b>" + Math.round(avg(a)) + "%</b>, vs <b>" + Math.round(avg(b)) + "%</b> on other nights.", a.length + b.length + " nights");
+    }
+    // B: weakest night of the week for sleep (night = the evening before the logged morning)
+    {
+      const by = {};
+      days.filter(x => has(x.e.sleepScore)).forEach(x => {
+        const n = new Date(x.d); n.setDate(n.getDate() - 1);
+        const w = DOW_NAMES[n.getDay()];
+        (by[w] = by[w] || []).push(Number(x.e.sleepScore));
+      });
+      const all = [].concat(...Object.values(by));
+      const groups = Object.keys(by).filter(w => by[w].length >= 2);
+      if (all.length >= 10 && groups.length) {
+        const worst = groups.sort((p, q) => avg(by[p]) - avg(by[q]))[0];
+        const gap = avg(all) - avg(by[worst]);
+        if (gap >= 8) add(gap / 8, "📅", "<b>" + worst + " nights</b> are your weakest sleep (" + Math.round(avg(by[worst])) + "% vs " + Math.round(avg(all)) + "% overall).", by[worst].length + " " + worst + "s");
+      }
+    }
+    // C/D: mood of the day vs steps and vs moving
+    const moodSplit = (pred, ico, label) => {
+      const a = days.filter(x => has(x.e.eveningMood) && pred(x)).map(x => Number(x.e.eveningMood));
+      const b = days.filter(x => has(x.e.eveningMood) && pred(x) === false).map(x => Number(x.e.eveningMood));
+      if (a.length >= 3 && b.length >= 3 && Math.abs(avg(a) - avg(b)) >= 0.7)
+        add(Math.abs(avg(a) - avg(b)) / 0.7, ico, "Mood of the day is <b>" + (avg(a) > avg(b) ? "higher" : "lower") + "</b> on " + label + " (" + avg(a).toFixed(1) + " vs " + avg(b).toFixed(1) + ").", a.length + b.length + " days");
+    };
+    moodSplit(x => has(x.e.steps) ? Number(x.e.steps) >= 7000 : null, "👟", "7k+ step days");
+    moodSplit(x => moveStickers(x.e, x.k).length > 0, "🧘‍♀️", "days you moved your body");
+    // E: MIT after late screens
+    {
+      const a = days.filter(x => x.e.lateScreens === true && (x.e.mitDone === true || x.e.mitDone === false));
+      const b = days.filter(x => x.e.lateScreens === false && (x.e.mitDone === true || x.e.mitDone === false));
+      if (a.length >= 3 && b.length >= 3) {
+        const ra = a.filter(x => x.e.mitDone).length / a.length * 100, rb = b.filter(x => x.e.mitDone).length / b.length * 100;
+        if (rb - ra >= 25) add((rb - ra) / 25, "🎯", "You finished your MIT <b>" + Math.round(ra) + "%</b> of the time after late-screen nights, vs <b>" + Math.round(rb) + "%</b> otherwise.", a.length + b.length + " days");
+      }
+    }
+    // F: shutdown by 9:30 → next morning's sleep
+    {
+      const a = [], b = [];
+      days.forEach(x => {
+        const n = new Date(x.d); n.setDate(n.getDate() + 1);
+        const nx = log[dateKey(n)];
+        if (!nx || !has(nx.sleepScore)) return;
+        ((x.e.eveningHabits || []).some(h => SHUTDOWN_NAMES.indexOf(h) >= 0) ? a : b).push(Number(nx.sleepScore));
+      });
+      if (a.length >= 3 && b.length >= 3 && avg(a) - avg(b) >= 8)
+        add((avg(a) - avg(b)) / 8, "🔌", "Nights you shut down by 9:30, you slept <b>" + Math.round(avg(a)) + "%</b>, vs <b>" + Math.round(avg(b)) + "%</b> on other nights.", a.length + b.length + " nights");
+    }
+    found.sort((p, q) => q.score - p.score);
+    const top = found.slice(0, 3);
+    if (!top.length) {
+      box.innerHTML = '<div class="assimil-note">Nothing stands out clearly yet — trends show up here once a pattern repeats over a few weeks of logging.</div>';
+      return;
+    }
+    box.innerHTML = top.map(t => '<div class="mt-item"><span class="mt-ico">' + t.ico + '</span><span>' + t.text + '<span class="mt-n">based on ' + t.n + "</span></span></div>").join("");
+  }
 
   // ---- memory keeping: the year's highlights, month by month ----
   let memYear = ritualNow().getFullYear();
@@ -2074,11 +2376,13 @@
   const views = {
     morning: document.getElementById("viewRitual"),
     evening: document.getElementById("viewEvening"),
+    week: document.getElementById("viewWeek"),
     calendar: document.getElementById("viewCalendar")
   };
   const tabs = {
     morning: document.getElementById("tabRitual"),
     evening: document.getElementById("tabEvening"),
+    week: document.getElementById("tabWeek"),
     calendar: document.getElementById("tabCalendar")
   };
   function showTab(name) {
@@ -2089,8 +2393,10 @@
     document.body.classList.toggle("evening-mode", name === "evening");
     document.body.classList.toggle("morning-mode", name === "morning");
     if (name === "evening") refreshMitDisplay();
+    if (name === "week") { renderWeekReview(); renderMonthTrends(); }
     if (name === "calendar") { renderCalendar(); renderMemories(); renderWeek(); renderSleep(); renderMood(); renderExercise(); renderSyncWarn(); }
     try { window.scrollTo(0, 0); } catch (e) {}
+    setTimeout(fitAllBoxes, 0);
   }
   Object.keys(tabs).forEach(k => tabs[k].addEventListener("click", () => showTab(k)));
 
@@ -2151,7 +2457,7 @@
       const rows = [[
         "Date", "Day of week", "Weekend", "Not logged", "Backfilled", "Sleep score (%)", "Sleep rating", "Sleep note", "Wake time", "Wake up notes", "Late screens last night", "What pulled me", "Morning mood (1-10)", "Most Important Task", "Grace day",
         ...habitNames.map(h => "Morning: " + h),
-        "Evening mood (1-10)", "Feeling", "Feeling why", "MIT accomplished", "MIT reason (if not)", "Body notes",
+        "Mood of the day (1-10)", "Feeling", "Feeling why", "MIT accomplished", "MIT reason (if not)", "Body notes",
         ...eveNames.map(h => "Evening: " + h),
         "Move type", "Move notes / other activity", "Steps", "Bonds (what we did)", "Memory keeping", "Out of the house (weekend)", "Monday's MIT (Sunday)",
         "Assimil lessons finished"
@@ -2480,6 +2786,8 @@
 
   renderSyncUI();
   syncPull(true);
+
+  setTimeout(fitAllBoxes, 0);
 
   // offline support
   try {
