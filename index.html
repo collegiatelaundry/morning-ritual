@@ -209,10 +209,17 @@
     filter: drop-shadow(-1px 1px 0 rgba(255, 255, 255, .85));
   }
   .photo-corner.pc-travel { border-right-color: #1d4034; }
-  .photo-corner.pc-sick { border-right-color: #c0392b; }
+  .photo-corner.pc-sick { border-right-color: #3d6fb0; }
+  .photo-corner.pc-period { border-right-color: #c0392b; }
+  .photo-corner.pc-left { right: auto; left: -1px; border-width: 15px 15px 0 0; border-top-right-radius: 0; border-top-left-radius: 8px;
+    filter: drop-shadow(1px 1px 0 rgba(255, 255, 255, .85)); }
+  .photo-corner.pc-left.pc-period { border-top-color: #c0392b; border-right-color: transparent; }
+  .photo-corner.pc-left.pc-travel { border-top-color: #1d4034; border-right-color: transparent; }
+  .photo-corner.pc-left.pc-sick { border-top-color: #3d6fb0; border-right-color: transparent; }
   .cal-legend .corner-dot { display: inline-block; width: 0; height: 0; border-style: solid; border-width: 0 10px 10px 0; border-color: transparent; vertical-align: middle; }
   .cal-legend .corner-dot.pc-travel { border-right-color: #1d4034; }
-  .cal-legend .corner-dot.pc-sick { border-right-color: #c0392b; }
+  .cal-legend .corner-dot.pc-sick { border-right-color: #3d6fb0; }
+  .cal-legend .corner-dot.pc-period { border-right-color: #c0392b; }
   .cal-day.today { border-color: var(--gold); color: var(--gold); font-weight: 650; }
   .cal-day.today.green, .cal-day.today.gold-day, .cal-day.today.blue { color: #fff; }
   .cal-day.today.lightgreen { color: #2d3436; }
@@ -239,6 +246,8 @@
   .lesson.next { border-color: var(--gold); color: var(--gold); }
 
   .export-row[hidden] { display: none; }
+  .export-last { font-size: .72rem; font-weight: 600; letter-spacing: 0; text-transform: none; color: var(--ink-soft); margin-left: 4px; }
+  .export-last.stale { color: #c08a1e; }
   /* ---- Week tab: weekly review + monthly trends ---- */
   .wr-card { background: var(--card); border-radius: 16px; box-shadow: var(--shadow); padding: 16px 16px 6px; margin-bottom: 8px; color: var(--ink); }
   .wr-title { display: flex; justify-content: space-between; align-items: baseline; }
@@ -267,6 +276,17 @@
   .wr-goal i { display: block; height: 100%; background: var(--accent); border-radius: 4px; }
   .wr-goal.met i { background: #52b048; }
   .wr-foot { font-size: .72rem; color: var(--ink-soft); padding: 8px 0 10px; border-top: 1px solid var(--line); }
+  .cy-grid { display: grid; grid-template-columns: 1fr 78px 70px; align-items: center; row-gap: 0; font-size: .88rem; }
+  .cy-grid > div { padding: 9px 0; border-top: 1px solid var(--line); }
+  .cy-grid > .cy-h { border-top: none; padding-top: 0; font-size: .68rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-soft); text-align: right; }
+  .cy-grid > .cy-h:first-child { text-align: left; }
+  .cy-grid .cy-v { text-align: right; font-weight: 700; }
+  .cy-grid .cy-o { text-align: right; color: var(--ink-soft); }
+  .cy-grid .cy-l.notable { font-weight: 700; }
+  .cy-grid .cy-l.notable::before { content: ""; display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: #c0392b; margin-right: 7px; vertical-align: middle; }
+  .cy-notes { font-size: .85rem; padding: 10px 0 2px; border-top: 1px solid var(--line); }
+  .cy-notes b { font-weight: 650; }
+  .cy-base { font-size: .72rem; color: var(--ink-soft); padding-top: 8px; }
   .mt-item { display: flex; gap: 10px; padding: 9px 0; border-top: 1px solid var(--line); font-size: .9rem; line-height: 1.4; }
   .mt-item:first-child { border-top: none; padding-top: 2px; }
   .mt-ico { flex: 0 0 22px; font-size: 1rem; }
@@ -314,14 +334,24 @@
     font-size: .68rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
     color: var(--gold); margin: 12px 0 6px;
   }
-  .grace-btn.dd-sick.on { background: #7fa3c4; border-color: #7fa3c4; color: #fff; }
-  .grace-btn.dd-travel.on { background: #f0dfa0; border-color: #e3cd82; color: #6b5a23; }
+  .grace-btn.dd-sick.on { background: #3d6fb0; border-color: #3d6fb0; color: #fff; }
+  .grace-btn.dd-travel.on { background: #1d4034; border-color: #1d4034; color: #fff; }
+  .grace-btn.dd-period.on { background: #c0392b; border-color: #c0392b; color: #fff; }
   .dd-addrow { display: flex; gap: 8px; }
   .dd-note-input { margin-bottom: 0; flex: 1; }
   .dd-add {
     border: none; border-radius: 10px; padding: 0 16px; background: var(--accent);
     color: #fff; font-weight: 650; font-size: .82rem; font-family: inherit; cursor: pointer;
   }
+  .bn-quick { margin: 4px 0 6px; }
+  .bn-quick summary { cursor: pointer; font-size: .85rem; font-weight: 650; color: var(--accent); list-style: none; padding: 4px 0; }
+  .bn-quick summary::-webkit-details-marker { display: none; }
+  .bn-quick summary::after { content: " ▸"; }
+  .bn-quick[open] summary::after { content: " ▾"; }
+  .bn-quick .chips { margin-top: 6px; }
+  .qchip { border: 1px solid var(--line); background: var(--card); color: var(--ink); border-radius: 999px; padding: 6px 12px; font: inherit; font-size: .82rem; cursor: pointer; }
+  .night-factors { margin: 10px 0 4px; }
+  .qchip.on { background: var(--accent); border-color: var(--accent); color: #fff; }
   .chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
   .chip {
     background: var(--accent-soft); color: var(--ink); border-radius: 999px;
@@ -346,7 +376,14 @@
   body.evening-mode .mood-slider-val { color: #e6ecf8; }
   .mood-slider-val { min-width: 24px; text-align: center; font-weight: 700; font-size: 1.1rem; }
   .mood-slider-row .sleep-nodata-btn[hidden] { display: none; }
-  .steps-input { width: 150px; margin-top: 8px; }
+  .steps-row { display: inline-flex; align-items: center; gap: 10px; margin-top: 10px; padding: 5px 6px 5px 12px;
+    border: 1px solid var(--line); border-radius: 999px; font-size: .8rem; font-weight: 650; color: var(--ink-soft); }
+  .steps-input { width: 78px; border: none; outline: none; background: var(--accent-soft); color: var(--ink);
+    border-radius: 999px; padding: 5px 10px; font: inherit; font-weight: 700; text-align: center; -moz-appearance: textfield; }
+  .steps-input::-webkit-outer-spin-button, .steps-input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+  body.evening-mode .steps-row { border-color: rgba(143, 163, 208, .35); color: #a9bade; }
+  body.evening-mode .steps-input { background: rgba(143, 163, 208, .18); color: #e6ecf8; }
+  body.evening-mode .steps-input::placeholder { color: #7487ad; }
   .wake-time-row { display: flex; align-items: center; gap: 8px; }
   .wake-now-btn[hidden] { display: none; }
   .wake-notes-label { font-size: 12px; color: var(--ink-soft); margin: 10px 0 2px; letter-spacing: .02em; }
@@ -650,7 +687,7 @@
 
   <p class="footer-note">
     Consistency beats intensity<br><br>
-    <span id="appVersion">v2026-10-14.7</span>
+    <span id="appVersion">v2026-10-14.12</span>
   </p>
   </div><!-- /viewRitual -->
 
@@ -671,6 +708,8 @@
     <div id="weekReview"></div>
     <div class="phase-label">This month <span class="phase-time">last 30 days</span></div>
     <div id="monthTrends" class="cal-card"></div>
+    <div class="phase-label">Before your period <span class="phase-time">5 days before vs other days</span></div>
+    <div id="cycleCard" class="cal-card"></div>
   </div>
 
   <div id="viewCalendar" hidden>
@@ -686,13 +725,17 @@
         <span>Mo</span><span>Tu</span><span>We</span><span>Th</span><span>Fr</span><span>Sa</span><span>Su</span>
       </div>
       <div class="cal-grid" id="calGrid"></div>
+      <div class="grace-row" id="ddEditRow" hidden>
+        <button class="grace-btn dd-edit" id="ddEdit">✎ Edit this day (backfill)</button>
+      </div>
       <div class="cal-legend">
         <span class="dot dg"></span> logged ·
         <span class="corner-dot pc-travel"></span> travel ·
-        <span class="corner-dot pc-sick"></span> sick
+        <span class="corner-dot pc-sick"></span> sick ·
+        <span class="corner-dot pc-period"></span> period
       </div>
       <div class="cal-legend"><span id="calTotal">0 days logged</span></div>
-      <div class="assimil-note">Tap any day for its details, sick/travel marking, and body notes. Yesterday and the day before can be backfilled from there.</div>
+      <div class="assimil-note">Tap any day to mark travel, sick or period, and to add body notes. Yesterday and the day before can be backfilled from there.</div>
     </div>
 
     <div class="phase-label" id="ddLabel" hidden>Day Details</div>
@@ -701,18 +744,18 @@
         <strong id="ddDate"></strong>
         <button class="dd-close" id="ddClose" aria-label="Close">✕</button>
       </div>
-      <div class="dd-summary" id="ddSummary"></div>
       <div class="dd-sub">Mark this day</div>
       <div class="grace-row">
-        <button class="grace-btn dd-sick" id="ddSick">Sick</button>
         <button class="grace-btn dd-travel" id="ddTravel">Travel</button>
-        <button class="grace-btn dd-nolog" id="ddNoLog">Not logged</button>
-        <button class="grace-btn" id="ddClear">Clear</button>
+        <button class="grace-btn dd-sick" id="ddSick">Sick</button>
+        <button class="grace-btn dd-period" id="ddPeriod">Period</button>
       </div>
-      <div class="grace-row" id="ddEditRow" hidden>
-        <button class="grace-btn dd-edit" id="ddEdit">✎ Edit this day (backfill)</button>
-      </div>
+
       <div class="dd-sub">Body notes</div>
+      <details class="bn-quick" id="ddQuick">
+        <summary>Common symptoms</summary>
+        <div class="chips" id="ddQuickChips"></div>
+      </details>
       <div class="dd-addrow">
         <input id="ddNoteInput" class="sync-input dd-note-input" placeholder="Add a body note…">
         <button id="ddNoteAdd" class="dd-add">Add</button>
@@ -763,7 +806,7 @@
         <span>Mo</span><span>Tu</span><span>We</span><span>Th</span><span>Fr</span><span>Sa</span><span>Su</span>
       </div>
       <div class="cal-grid" id="exCal"></div>
-      <div class="cal-legend"><span class="ex-sticker">🚶‍♀️</span> walk · <span class="ex-sticker">🧘‍♀️</span> yoga · <span class="ex-sticker">🏋️‍♀️</span> workout · <span class="ex-sticker">🤸‍♀️</span> other</div>
+      <div class="cal-legend"><span class="ex-sticker">🧘‍♀️</span> yoga · <span class="ex-sticker">🏋️‍♀️</span> strength · <span class="ex-sticker">🏃‍♀️</span> run · <span class="ex-sticker">🤸‍♀️</span> other</div>
       <div class="cal-legend">
         Steps: <span class="dot st1"></span> &lt;3k ·
         <span class="dot st2"></span> 3k+ ·
@@ -786,10 +829,8 @@
       <div class="grace-row"><button class="grace-btn" id="memSave">Save this year as text</button></div>
     </div>
 
-    <div class="phase-label collapser" data-sec="patterns">Patterns<span class="fold">▾</span></div>
-    <div class="week-card" id="weekCard">No data yet — patterns appear after a few mornings.</div>
 
-    <div class="phase-label collapser" data-sec="export">Export<span class="fold">▾</span></div>
+    <div class="phase-label collapser" data-sec="export"><span>Export <span class="export-last" id="exportLast"></span></span><span class="fold">▾</span></div>
     <div id="sec-export" class="export-row">
       <label for="exportSel">Export my data</label>
       <select id="exportSel">
@@ -896,7 +937,7 @@
         input: { key: "mondayMit", placeholder: "Monday's most important task…" } }
     ]},
     { label: "Wind Down", time: "21:00 – 22:00", steps: [
-      { t: "Shutdown by 9:30 pm", m: "2 min",
+      { t: "Evening shutdown by 9:30 pm", m: "2 min",
         d: "Phone on the bookshelf, laptop closed" },
       { t: "Memory keeping", m: "5 min", autoTick: true,
         d: "Highlights of the day, things I really loved, notable moments.",
@@ -992,25 +1033,28 @@
 
   // (streaks removed by design — most of the time is good enough; history alone tells the story)
 
-  const MOVE_TYPES = ["Walk", "Yoga", "Workout"];
+  const MOVE_TYPES = ["Yoga", "Strength", "Run"];
+  const NIGHT_FACTORS = ["Alcohol", "Caffeine after 2 pm", "Late heavy dinner"];
   // which stickers a day earns — from the buttons, or from words in older free-text entries
   const MOVE_BUTTONS_SINCE = "2026-10-13";
   function moveStickers(e, key) {
-    const types = (e.moveTypes || []).slice();
+    // older taps: "Workout" is now "Strength"; Walk and Swim were retired
+    const types = (e.moveTypes || []).map(t => t === "Workout" ? "Strength" : t).filter(t => t !== "Walk");
+    if (types.indexOf("Swim") >= 0) { types.splice(types.indexOf("Swim"), 1); types.push("Other"); }
     // older free-text entries get stickers from their words; newer notes are just notes
     const txt = (key && key < MOVE_BUTTONS_SINCE && !e.moveTypes) ? String(e.moveActivity || "").toLowerCase() : "";
     if (types.indexOf("Yoga") < 0 && /yoga|stretch|pilates/.test(txt)) types.push("Yoga");
-    if (/\brun|\bjog/.test(txt) || types.indexOf("Run") >= 0) types.push("Other");
-    if (types.indexOf("Workout") < 0 && /workout|gym|weights|strength/.test(txt)) types.push("Workout");
+    if (types.indexOf("Run") < 0 && /\brun|\bjog/.test(txt)) types.push("Run");
+    if (types.indexOf("Strength") < 0 && /workout|gym|weights|strength/.test(txt)) types.push("Strength");
     const out = MOVE_TYPES.filter(t => types.indexOf(t) >= 0);
     if (types.indexOf("Other") >= 0) out.push("Other");
     // "Other": newer days — notes typed with no button picked; older days — a walk, hike, swim…
     const isNew = !key || key >= MOVE_BUTTONS_SINCE || e.moveTypes;
     const note = String(e.moveActivity || "").trim();
-    if (out.indexOf("Other") < 0 && !out.length && note && (isNew ? !(e.moveTypes || []).length : /hike|swim|bike|cycl|danc|tennis/i.test(note))) out.push("Other");
+    if (out.indexOf("Other") < 0 && !out.length && note && (isNew ? !(e.moveTypes || []).filter(t => MOVE_TYPES.indexOf(t === "Workout" ? "Strength" : t) >= 0).length : /hike|swim|bike|cycl|danc|tennis/i.test(note))) out.push("Other");
     return out;
   }
-  const STICKER = { Walk: "🚶‍♀️", Yoga: "🧘‍♀️", Workout: "🏋️‍♀️", Other: "🤸‍♀️" };
+  const STICKER = { Yoga: "🧘‍♀️", Strength: "🏋️‍♀️", Run: "🏃‍♀️", Other: "🤸‍♀️" };
 
   // the five qualitative feelings (evening check-in + feelings calendar)
   const FEELINGS = [
@@ -1254,16 +1298,16 @@
           const row = document.createElement("div");
           row.className = "mini-scale mit-row";
           const other = growBox("step-input", 2);
-          other.placeholder = "Other activity (hike…) or notes — how it felt, ideas…";
+          other.placeholder = "Other activities or notes - how it felt, how long, ideas, etc.";
           other.addEventListener("click", ev => ev.stopPropagation());
           function moveDone() {
             const e = logGet()[today] || {};
-            stateArr[i] = !!((e.moveTypes || []).length || (e.moveActivity && String(e.moveActivity).trim()));
+            stateArr[i] = !!((e.moveTypes || []).filter(t => MOVE_TYPES.indexOf(t === "Workout" ? "Strength" : t) >= 0).length || (e.moveActivity && String(e.moveActivity).trim()));
             li.classList.toggle("done", stateArr[i]);
             onChange();
           }
           function paintMove() {
-            const sel = (logGet()[today] || {}).moveTypes || [];
+            const sel = ((logGet()[today] || {}).moveTypes || []).map(t => t === "Workout" ? "Strength" : t);
             row.querySelectorAll("button").forEach(b => b.classList.toggle("sel", sel.indexOf(b.dataset.v) >= 0));
           }
           MOVE_TYPES.forEach(mt => {
@@ -1273,7 +1317,7 @@
             b.className = "mit-btn";
             b.addEventListener("click", ev => {
               ev.stopPropagation();
-              const sel = ((logGet()[today] || {}).moveTypes || []).slice();
+              const sel = ((logGet()[today] || {}).moveTypes || []).map(t => t === "Workout" ? "Strength" : t).filter(t => MOVE_TYPES.indexOf(t) >= 0);
               const k = sel.indexOf(mt);
               if (k >= 0) sel.splice(k, 1); else sel.push(mt);
               logMerge({ moveTypes: sel.length ? sel : null });
@@ -1287,8 +1331,15 @@
           stp.type = "number";
           stp.min = 0;
           stp.inputMode = "numeric";
-          stp.className = "sleep-score-input steps-input";
-          stp.placeholder = "Steps today";
+          stp.className = "steps-input";
+          stp.placeholder = "0";
+          const stRow = document.createElement("label");
+          stRow.className = "steps-row";
+          const stLbl = document.createElement("span");
+          stLbl.textContent = "Steps today";
+          stRow.appendChild(stLbl);
+          stRow.appendChild(stp);
+          stRow.addEventListener("click", ev => ev.stopPropagation());
           stp.addEventListener("click", ev => ev.stopPropagation());
           stp.addEventListener("input", () => {
             let v = parseInt(stp.value, 10);
@@ -1299,11 +1350,11 @@
           if (cs !== undefined && cs !== null) stp.value = cs;
           body.appendChild(row);
           body.appendChild(other);
-          body.appendChild(stp);
+          body.appendChild(stRow);
           const cm = logGet()[today] || {};
           if (cm.moveActivity) other.value = cm.moveActivity;
           paintMove();
-          stateArr[i] = !!((cm.moveTypes || []).length || (cm.moveActivity && String(cm.moveActivity).trim()));
+          stateArr[i] = !!((cm.moveTypes || []).filter(t => MOVE_TYPES.indexOf(t === "Workout" ? "Strength" : t) >= 0).length || (cm.moveActivity && String(cm.moveActivity).trim()));
           li.classList.toggle("done", stateArr[i]);
         } else if (s.kind === "wake") {
           const tm = document.createElement("input");
@@ -1419,8 +1470,39 @@
           });
           noteInp.addEventListener("click", ev => ev.stopPropagation());
           noteInp.addEventListener("input", () => logMerge({ sleepNote: noteInp.value || null }));
+          // last-night factors: collapsed until tapped, one-tap chips
+          const fx = document.createElement("details");
+          fx.className = "bn-quick night-factors";
+          const fxs = document.createElement("summary");
+          fxs.textContent = "Last night factors";
+          fx.appendChild(fxs);
+          const fxRow = document.createElement("div");
+          fxRow.className = "chips";
+          const paintFx = () => {
+            const sel = (logGet()[today] || {}).nightFactors || [];
+            fxRow.querySelectorAll("button").forEach(b => b.classList.toggle("on", sel.indexOf(b.dataset.v) >= 0));
+            fxs.textContent = "Last night factors" + (sel.length ? " · " + sel.length : "");
+          };
+          NIGHT_FACTORS.forEach(f => {
+            const b = document.createElement("button");
+            b.className = "qchip";
+            b.textContent = f;
+            b.dataset.v = f;
+            b.addEventListener("click", ev => {
+              ev.stopPropagation();
+              const sel = ((logGet()[today] || {}).nightFactors || []).slice();
+              const k = sel.indexOf(f);
+              if (k >= 0) sel.splice(k, 1); else sel.push(f);
+              logMerge({ nightFactors: sel.length ? sel : null });
+              paintFx();
+            });
+            fxRow.appendChild(b);
+          });
+          fx.appendChild(fxRow);
+          fx.addEventListener("click", ev => ev.stopPropagation());
           wrap.appendChild(score);
           wrap.appendChild(rrow);
+          wrap.appendChild(fx);
           wrap.appendChild(noData);
           body.appendChild(wrap);
           const cur = logGet()[today] || {};
@@ -1428,6 +1510,7 @@
           if (cur.sleepRating) paintScale(rrow, cur.sleepRating);
           if (cur.sleepNote) { noteInp.value = cur.sleepNote; noteInp.hidden = false; }
           paintNoData();
+          paintFx();
           // done-state always derived from the saved data, not the visible tick history
           stateArr[i] = ((cur.sleepScore !== undefined && cur.sleepScore !== null) && !!cur.sleepRating) || !!cur.sleepNoData;
           li.classList.toggle("done", stateArr[i]);
@@ -1743,11 +1826,15 @@
       const e = dayLog[key];
       let cls = null;
       if (isLogged(e) || historySet.has(key)) cls = "green";
-      if (graceSet.has(key)) {
+      const marks = [];
+      if (e && e.period) marks.push("pc-period");
+      if (graceMap[key] === "travel") marks.push("pc-travel");
+      if (graceMap[key] === "sick") marks.push("pc-sick");
+      marks.slice(0, 2).forEach((m, idx) => {
         const corner = document.createElement("span");
-        corner.className = "photo-corner " + (graceMap[key] === "travel" ? "pc-travel" : "pc-sick");
+        corner.className = "photo-corner " + m + (idx === 1 ? " pc-left" : "");
         cell.appendChild(corner);
-      }
+      });
       if (cls) cell.classList.add(cls);
       // mood star: avg of morning+evening mood — 8+ mustard, 6–7.9 normal, below 6 none
       if (e && e.notLogged) cell.classList.add("nolog");
@@ -1812,23 +1899,46 @@
     return parts.join(" · ");
   }
 
+  const QUICK_SYMPTOMS = ["Headache", "Low energy", "Pimples", "Sore back", "Shoulder ache", "Sore throat", "Tender breasts", "Tender vagina"];
+  let ddLastDate = null;
   function renderDayDetails() {
     const label = document.getElementById("ddLabel");
+    if (selectedDate !== ddLastDate) { const q = document.getElementById("ddQuick"); if (q) q.open = false; ddLastDate = selectedDate; }
+    if (!selectedDate) document.getElementById("ddEditRow").hidden = true;
     const card = document.getElementById("ddCard");
     if (!selectedDate) { label.hidden = true; card.hidden = true; return; }
     label.hidden = false;
     card.hidden = false;
     document.getElementById("ddDate").textContent =
       new Date(selectedDate + "T00:00:00").toLocaleDateString("en-GB", { weekday: "long", day: "numeric", month: "long", year: "numeric" });
-    document.getElementById("ddSummary").innerHTML = daySummary(selectedDate);
     document.getElementById("ddSick").classList.toggle("on", graceMap[selectedDate] === "sick");
     document.getElementById("ddTravel").classList.toggle("on", graceMap[selectedDate] === "travel");
-    document.getElementById("ddNoLog").classList.toggle("on", !!(logGet()[selectedDate] || {}).notLogged);
+    document.getElementById("ddPeriod").classList.toggle("on", !!(logGet()[selectedDate] || {}).period);
     // backfill entry: only yesterday and the day before (the 48-hour memory window)
     document.getElementById("ddEditRow").hidden = !(selectedDate === yesterday || selectedDate === dayBefore);
+    // one-tap common symptoms: tap to add, tap again to remove (saved as normal body notes)
+    const qwrap = document.getElementById("ddQuickChips");
+    qwrap.innerHTML = "";
+    const curNotes = ((logGet()[selectedDate] || {}).bodyNotes || []).map(n => String(n).trim().toLowerCase());
+    QUICK_SYMPTOMS.forEach(sym => {
+      const b = document.createElement("button");
+      b.className = "qchip" + (curNotes.indexOf(sym.toLowerCase()) >= 0 ? " on" : "");
+      b.textContent = sym;
+      b.addEventListener("click", () => {
+        const e2 = logGet()[selectedDate] || {};
+        const cur = (e2.bodyNotes || []).slice();
+        const times = (e2.bodyNoteTimes || []).slice();
+        const idx = cur.findIndex(n => String(n).trim().toLowerCase() === sym.toLowerCase());
+        if (idx >= 0) { cur.splice(idx, 1); if (idx < times.length) times.splice(idx, 1); }
+        else { cur.push(sym); times.push(new Date().toISOString()); }
+        logMergeDate(selectedDate, { bodyNotes: cur, bodyNoteTimes: times });
+        renderDayDetails();
+      });
+      qwrap.appendChild(b);
+    });
     const chips = document.getElementById("ddChips");
     chips.innerHTML = "";
-    const notes = (logGet()[selectedDate] || {}).bodyNotes || [];
+    const notes = ((logGet()[selectedDate] || {}).bodyNotes || []).filter(n => QUICK_SYMPTOMS.map(q => q.toLowerCase()).indexOf(String(n).trim().toLowerCase()) < 0);
     notes.forEach((n, i) => {
       const chip = document.createElement("span");
       chip.className = "chip";
@@ -1841,8 +1951,10 @@
         const e2 = logGet()[selectedDate] || {};
         const cur = (e2.bodyNotes || []).slice();
         const times = (e2.bodyNoteTimes || []).slice();
-        cur.splice(i, 1);
-        if (i < times.length) times.splice(i, 1);
+        const j = cur.indexOf(n);
+        if (j < 0) return;
+        cur.splice(j, 1);
+        if (j < times.length) times.splice(j, 1);
         logMergeDate(selectedDate, { bodyNotes: cur, bodyNoteTimes: times });
         renderDayDetails();
       });
@@ -1855,20 +1967,13 @@
   document.getElementById("ddClose").addEventListener("click", () => { selectedDate = null; renderCalendar(); renderDayDetails(); });
   document.getElementById("ddSick").addEventListener("click", () => toggleGrace(selectedDate, "sick"));
   document.getElementById("ddTravel").addEventListener("click", () => toggleGrace(selectedDate, "travel"));
-  document.getElementById("ddNoLog").addEventListener("click", () => {
+  // period is its own mark (it can share a day with travel or sick) and lives in the day's log, so it syncs
+  document.getElementById("ddPeriod").addEventListener("click", () => {
     if (!selectedDate) return;
-    const cur = !!(logGet()[selectedDate] || {}).notLogged;
-    logMergeDate(selectedDate, { notLogged: cur ? null : true });
+    const cur = !!(logGet()[selectedDate] || {}).period;
+    logMergeDate(selectedDate, { period: cur ? null : true });
     renderCalendar();
     renderDayDetails();
-  });
-  document.getElementById("ddClear").addEventListener("click", () => {
-    toggleGrace(selectedDate, null);
-    if (selectedDate && (logGet()[selectedDate] || {}).notLogged) {
-      logMergeDate(selectedDate, { notLogged: null });
-      renderCalendar();
-      renderDayDetails();
-    }
   });
   document.getElementById("ddNoteAdd").addEventListener("click", () => {
     const inp = document.getElementById("ddNoteInput");
@@ -2064,15 +2169,19 @@
     for (let i = 0; i < 7; i++) { const d = new Date(mon); d.setDate(mon.getDate() + i); out.push(dateKey(d)); }
     return out;
   }
-  const SHUTDOWN_NAMES = ["Shutdown by 9:30 pm", "Exile the phone"];
+  const SHUTDOWN_NAMES = ["Evening shutdown by 9:30 pm", "Shutdown by 9:30 pm", "Exile the phone"];
+  function nextKey(k) { const d = new Date(k + "T00:00:00"); d.setDate(d.getDate() + 1); return dateKey(d); }
+  // "night" fields are logged the morning after, so the night of day k lives in the entry for k+1
+  function nightEntry(log, k) { const e = log[nextKey(k)]; return e && !e.notLogged ? e : {}; }
   function weekStats(keys) {
     const log = logGet();
     const st = { sleep: [], lateYes: 0, lateAns: 0, shut: 0, steps: [], steps7k: 0, moved: 0, mitYes: 0, mitAns: 0, mood: [] };
     keys.forEach(k => {
+      const n = nightEntry(log, k);
+      if (n.sleepScore !== undefined && n.sleepScore !== null) st.sleep.push(Number(n.sleepScore));
+      if (n.lateScreens === true || n.lateScreens === false) { st.lateAns++; if (n.lateScreens) st.lateYes++; }
       const e = log[k];
       if (!e || e.notLogged) return;
-      if (e.sleepScore !== undefined && e.sleepScore !== null) st.sleep.push(Number(e.sleepScore));
-      if (e.lateScreens === true || e.lateScreens === false) { st.lateAns++; if (e.lateScreens) st.lateYes++; }
       if ((e.eveningHabits || []).some(h => SHUTDOWN_NAMES.indexOf(h) >= 0)) st.shut++;
       if (e.steps !== undefined && e.steps !== null && e.steps !== "") { st.steps.push(Number(e.steps)); if (Number(e.steps) >= 7000) st.steps7k++; }
       if (moveStickers(e, k).length) st.moved++;
@@ -2090,11 +2199,11 @@
     const keys = weekKeys(0);
     const log = logGet();
     const cur = weekStats(keys);
-    const screenFree = keys.filter(k => log[k] && !log[k].notLogged && log[k].lateScreens === false).length;
+    const screenFree = keys.filter(k => nightEntry(log, k).lateScreens === false).length;
     const fmt = d => new Date(d + "T00:00:00").toLocaleDateString("en-GB", { day: "numeric", month: "short" });
-    const row = (label, sub, val, met, cellFn, extra) => {
+    const row = (label, sub, val, met, cellFn, extra, night) => {
       const cells = keys.map(k => {
-        const e = log[k] && !log[k].notLogged ? log[k] : {};
+        const e = night ? nightEntry(log, k) : (log[k] && !log[k].notLogged ? log[k] : {});
         const c = { cls: ["wr-cell"], inner: "" };
         if (k === today) c.cls.push("today");
         if (k > today) c.cls.push("future");
@@ -2117,12 +2226,12 @@
         c.cls.push("on", "wr-sq" + step);
         c.inner = '<span style="color:' + (step >= 3 ? "#3b3226" : "#fff") + '">' + e.sleepScore + "</span>";
       }
-    }, bar(cur.sleepAvg, WEEK_GOALS.sleep));
+    }, bar(cur.sleepAvg, WEEK_GOALS.sleep), true);
     // late screens — 5 screen-free nights, 2 nights of slack
     html += row("Screen-free nights", "", outOf(screenFree, 5), screenFree >= WEEK_GOALS.screenFree, (e, k, c) => {
       if (e.lateScreens === true) { c.cls.push("on", "late"); c.inner = "●"; }
       else if (e.lateScreens === false) { c.cls.push("on", "yes-good"); c.inner = "✓"; }
-    });
+    }, "", true);
     html += row("Shutdown by 9:30", "", outOf(cur.shut, 5), cur.shut >= WEEK_GOALS.shutdown, (e, k, c) => {
       if ((e.eveningHabits || []).some(h => SHUTDOWN_NAMES.indexOf(h) >= 0)) { c.cls.push("on", "yes-good"); c.inner = "✓"; }
     });
@@ -2171,6 +2280,13 @@
       if (a.length >= 3 && b.length >= 3 && avg(b) - avg(a) >= 8)
         add((avg(b) - avg(a)) / 8, "🌙", "After late-screen nights your sleep averages <b>" + Math.round(avg(a)) + "%</b>, vs <b>" + Math.round(avg(b)) + "%</b> on other nights.", a.length + b.length + " nights");
     }
+    // A2: sleep after alcohol / late caffeine / late heavy dinner
+    NIGHT_FACTORS.forEach(f => {
+      const a = days.filter(x => (x.e.nightFactors || []).indexOf(f) >= 0 && has(x.e.sleepScore)).map(x => Number(x.e.sleepScore));
+      const b = days.filter(x => (x.e.nightFactors || []).indexOf(f) < 0 && has(x.e.sleepScore)).map(x => Number(x.e.sleepScore));
+      if (a.length >= 3 && b.length >= 3 && avg(b) - avg(a) >= 8)
+        add((avg(b) - avg(a)) / 8, "🍷", "After <b>" + f.toLowerCase() + "</b> nights your sleep averages <b>" + Math.round(avg(a)) + "%</b>, vs <b>" + Math.round(avg(b)) + "%</b> otherwise.", a.length + b.length + " nights");
+    });
     // B: weakest night of the week for sleep (night = the evening before the logged morning)
     {
       const by = {};
@@ -2209,8 +2325,7 @@
     {
       const a = [], b = [];
       days.forEach(x => {
-        const n = new Date(x.d); n.setDate(n.getDate() + 1);
-        const nx = log[dateKey(n)];
+        const nx = log[nextKey(x.k)];
         if (!nx || !has(nx.sleepScore)) return;
         ((x.e.eveningHabits || []).some(h => SHUTDOWN_NAMES.indexOf(h) >= 0) ? a : b).push(Number(nx.sleepScore));
       });
@@ -2224,6 +2339,57 @@
       return;
     }
     box.innerHTML = top.map(t => '<div class="mt-item"><span class="mt-ico">' + t.ico + '</span><span>' + t.text + '<span class="mt-n">based on ' + t.n + "</span></span></div>").join("");
+  }
+
+  // ---- before your period: the 5 days before each marked period start vs all other days (last 180 days) ----
+  function prevKey(k) { const d = new Date(k + "T00:00:00"); d.setDate(d.getDate() - 1); return dateKey(d); }
+  function renderCycle() {
+    const box = document.getElementById("cycleCard");
+    if (!box) return;
+    const log = logGet();
+    const keys = [];
+    for (let i = 0; i < 180; i++) { const d = new Date(today + "T00:00:00"); d.setDate(d.getDate() - i); keys.push(dateKey(d)); }
+    const isP = k => !!(log[k] && log[k].period);
+    const starts = keys.filter(k => isP(k) && !isP(prevKey(k)));
+    if (starts.length < 2) {
+      box.innerHTML = '<div class="assimil-note">Mark your period days in the Calendar (tap a day → Period). This fills in after 2 cycles.</div>';
+      return;
+    }
+    const pre = new Set();
+    starts.forEach(st => { let k = st; for (let i = 0; i < 5; i++) { k = prevKey(k); if (!isP(k)) pre.add(k); } });
+    const usable = k => log[k] && !log[k].notLogged && !graceMap[k] && !isP(k);
+    const preDays = keys.filter(k => pre.has(k) && usable(k));
+    const otherDays = keys.filter(k => !pre.has(k) && usable(k));
+    const has = v => v !== undefined && v !== null && v !== "";
+    const avg = a => a.reduce((x, y) => x + y, 0) / a.length;
+    const metric = (label, getter, fmt, threshold, rate) => {
+      const vals = ks => ks.map(k => getter(k)).filter(v => v !== null && v !== undefined);
+      const a = vals(preDays), b = vals(otherDays);
+      if (a.length < 3 || b.length < 3) return { label, a: "–", b: "–", notable: false };
+      const va = rate ? a.filter(Boolean).length / a.length * 100 : avg(a);
+      const vb = rate ? b.filter(Boolean).length / b.length * 100 : avg(b);
+      return { label, a: fmt(va), b: fmt(vb), notable: Math.abs(va - vb) >= threshold };
+    };
+    const rows = [
+      metric("Mood of the day", k => has(log[k].eveningMood) ? Number(log[k].eveningMood) : null, v => v.toFixed(1), 0.7),
+      metric("Morning mood", k => has(log[k].mood) ? Number(log[k].mood) : null, v => v.toFixed(1), 0.7),
+      metric("Sleep", k => { const n = nightEntry(log, k); return has(n.sleepScore) ? Number(n.sleepScore) : null; }, v => Math.round(v) + "%", 8),
+      metric("Late-screen nights", k => { const n = nightEntry(log, k); return n.lateScreens === true || n.lateScreens === false ? n.lateScreens : null; }, v => Math.round(v) + "%", 25, true),
+      metric("MIT done", k => log[k].mitDone === true || log[k].mitDone === false ? log[k].mitDone : null, v => Math.round(v) + "%", 25, true),
+      metric("Steps", k => has(log[k].steps) ? Number(log[k].steps) : null, v => (Math.round(v / 100) / 10).toFixed(1) + "k", 1500)
+    ];
+    let html = '<div class="cy-grid"><div class="cy-h"></div><div class="cy-h">Before period</div><div class="cy-h">Other days</div>';
+    rows.forEach(r => {
+      html += '<div class="cy-l' + (r.notable ? " notable" : "") + '">' + r.label + '</div><div class="cy-v">' + r.a + '</div><div class="cy-o">' + r.b + "</div>";
+    });
+    html += "</div>";
+    // body notes written in the days before a period, most frequent first
+    const counts = {};
+    preDays.forEach(k => (log[k].bodyNotes || []).forEach(n => { const t = String(n).trim().toLowerCase(); if (t) counts[t] = (counts[t] || 0) + 1; }));
+    const top = Object.keys(counts).sort((p, q) => counts[q] - counts[p]).slice(0, 5);
+    if (top.length) html += '<div class="cy-notes"><b>Body notes before:</b> ' + top.map(t => t.replace(/</g, "&lt;") + (counts[t] > 1 ? " (" + counts[t] + "×)" : "")).join(", ") + "</div>";
+    html += '<div class="cy-base">Based on ' + starts.length + " cycles · " + preDays.length + " days before</div>";
+    box.innerHTML = html;
   }
 
   // ---- memory keeping: the year's highlights, month by month ----
@@ -2282,6 +2448,7 @@
   function renderWeek() {
     const log = logGet();
     const el = document.getElementById("weekCard");
+    if (!el) return; // Patterns card retired — the Week tab covers it
     // late screens are answered the next morning, on the same day as that night's sleep score
     let week = 0, weekAnswered = 0;
     for (let i = 0; i < 7; i++) {
@@ -2393,8 +2560,8 @@
     document.body.classList.toggle("evening-mode", name === "evening");
     document.body.classList.toggle("morning-mode", name === "morning");
     if (name === "evening") refreshMitDisplay();
-    if (name === "week") { renderWeekReview(); renderMonthTrends(); }
-    if (name === "calendar") { renderCalendar(); renderMemories(); renderWeek(); renderSleep(); renderMood(); renderExercise(); renderSyncWarn(); }
+    if (name === "week") { renderWeekReview(); renderMonthTrends(); renderCycle(); }
+    if (name === "calendar") { renderLastExport(); renderCalendar(); renderMemories(); renderWeek(); renderSleep(); renderMood(); renderExercise(); renderSyncWarn(); }
     try { window.scrollTo(0, 0); } catch (e) {}
     setTimeout(fitAllBoxes, 0);
   }
@@ -2413,6 +2580,18 @@
 
   // on iPhone/iPad this opens the native share sheet (Google Drive, Mail,
   // Save to Files, AirDrop…); elsewhere it falls back to a plain download
+  const LAST_EXPORT_KEY = "ritual-sync-last-export"; // device-only, not synced
+  function markExported() { try { localStorage.setItem(LAST_EXPORT_KEY, new Date().toISOString()); } catch (e) {} renderLastExport(); }
+  function renderLastExport() {
+    const el = document.getElementById("exportLast");
+    if (!el) return;
+    let t = null;
+    try { t = localStorage.getItem(LAST_EXPORT_KEY); } catch (e) {}
+    if (!t) { el.textContent = "· never exported"; el.classList.add("stale"); return; }
+    const days = Math.floor((Date.now() - new Date(t).getTime()) / 864e5);
+    el.textContent = "· last export " + (days <= 0 ? "today" : days === 1 ? "1 day ago" : days + " days ago");
+    el.classList.toggle("stale", days > 30);
+  }
   async function deliver(content, filename, type) {
     try {
       const file = new File([content], filename, { type: type.split(";")[0] });
@@ -2433,73 +2612,103 @@
     if (v === "json") exportJson();
   });
 
+  // renamed habits are merged into their current name, so a rename never looks like a habit stopping
+  const HABIT_ALIASES = {
+    "Exile the phone": "Evening shutdown by 9:30 pm",
+    "Shutdown by 9:30 pm": "Evening shutdown by 9:30 pm",
+    "Read something that matters": "Slow, mindful reading",
+    "Today's debriefing": "Memory keeping",
+    "Update my Hobonichi": "Memory keeping",
+    "Open the windows": "Open the windows, brew tea and five min quick clean-up",
+    "Brew tea & 5 min quick clean-up": "Open the windows, brew tea and five min quick clean-up",
+    "Brew tea and five min quick clean-up": "Open the windows, brew tea and five min quick clean-up",
+    "Questions for today": "Observe this moment",
+    "Chosen physical activity": "Did I move for my body today?",
+    "Bonds — family check-in": "Bonds & connection check-in"
+  };
+  const canonHabit = h => HABIT_ALIASES[h] || h;
   function exportCsv() {
     try {
       const log = logGet();
+      const has = v => v !== undefined && v !== null && v !== "";
+      const yn = b => b === true ? "Yes" : b === false ? "No" : "";
+      const shift = (k, n) => { const d = new Date(k + "T00:00:00"); d.setDate(d.getDate() + n); return dateKey(d); };
       const llog = JSON.parse(store.get("ritual-assimil-log") || "{}") || {};
       const lessonsByDate = {};
       Object.keys(llog).forEach(n => { (lessonsByDate[llog[n]] = lessonsByDate[llog[n]] || []).push(n); });
-      // current habits first, then any retired habits still present in past days,
-      // so removing a step from the app never drops its history from the export
-      const withRetired = (current, field) => {
-        const names = current.slice();
-        Object.keys(log).sort().forEach(d => ((log[d] || {})[field] || []).forEach(h => { if (names.indexOf(h) < 0) names.push(h); }));
-        return names;
-      };
-      const habitNames = withRetired(allSteps.filter(s => !s.kind).map(s => s.t), "habits");
-      const eveNames = withRetired(EPHASES.flatMap(p => p.steps).filter(s => !s.kind).map(s => s.t), "eveningHabits");
-      const allDates = new Set(Object.keys(log));
-      graceSet.forEach(d => allDates.add(d));
-      historySet.forEach(d => allDates.add(d));
-      eveHistorySet.forEach(d => allDates.add(d));
-      const esc = v => '"' + String(v).replace(/"/g, '""') + '"';
-      const dowOf = d => DOW_NAMES[new Date(d + "T00:00:00").getDay()];
-      const rows = [[
-        "Date", "Day of week", "Weekend", "Not logged", "Backfilled", "Sleep score (%)", "Sleep rating", "Sleep note", "Wake time", "Wake up notes", "Late screens last night", "What pulled me", "Morning mood (1-10)", "Most Important Task", "Grace day",
-        ...habitNames.map(h => "Morning: " + h),
-        "Mood of the day (1-10)", "Feeling", "Feeling why", "MIT accomplished", "MIT reason (if not)", "Body notes",
-        ...eveNames.map(h => "Evening: " + h),
-        "Move type", "Move notes / other activity", "Steps", "Bonds (what we did)", "Memory keeping", "Out of the house (weekend)", "Monday's MIT (Sunday)",
-        "Assimil lessons finished"
-      ].map(esc).join(",")];
-      Array.from(allDates).sort().forEach(d => {
-        const e = log[d] || {};
-        const dow = e.dayOfWeek || dowOf(d);
-        rows.push([
-          d,
-          dow,
-          (dow === "Saturday" || dow === "Sunday") ? "Yes" : "No",
-          e.notLogged ? "Yes" : "",
-          e.backfilled ? "Yes" : "",
-          (e.sleepScore !== undefined && e.sleepScore !== null) ? e.sleepScore : (e.sleepNoData ? "no data" : ""),
-          e.sleepRating || "",
-          e.sleepNote || "",
-          e.wakeTime || "",
-          e.wakeNotes || "",
-          e.lateScreens === true ? "Yes" : e.lateScreens === false ? "No" : "",
-          e.lateScreensWhy || "",
-          e.mood || "",
-          e.mit || "",
-          graceMap[d] === "sick" ? "Sick" : graceMap[d] === "travel" ? "Travel" : "",
-          ...habitNames.map(h => (e.habits || []).indexOf(h) >= 0 ? "Yes" : "No"),
-          e.eveningMood || "",
-          (e.feeling && FEEL_BY_KEY[e.feeling]) ? FEEL_BY_KEY[e.feeling].label : "",
-          e.feelingWhy || "",
-          e.mitDone === true ? "Yes" : e.mitDone === false ? "No" : "",
-          e.mitReason || "",
-          (e.bodyNotes || []).join("; "),
-          ...eveNames.map(h => (e.eveningHabits || []).indexOf(h) >= 0 ? "Yes" : "No"),
-          (e.moveTypes || []).join("; "),
-          e.moveActivity || "",
-          (e.steps !== undefined && e.steps !== null) ? e.steps : "",
-          e.bondsNote || "",
-          e.memories || "",
-          e.outOfHouse || "",
-          e.mondayMit || "",
-          (lessonsByDate[d] || []).join(" ")
-        ].map(esc).join(","));
+      // habit columns: current morning + evening habits (canonical names), retired ones at the end
+      const curMorning = allSteps.filter(s => !s.kind).map(s => s.t);
+      const curEvening = EPHASES.flatMap(p => p.steps).filter(s => !s.kind || s.kind === "move").map(s => s.t);
+      const current = new Set(curMorning.concat(curEvening));
+      // check-in steps (wake, sleep, moods, MIT…) have their own data columns, so they never become "Old:" columns
+      PHASES.concat(EPHASES).flatMap(p => p.steps).forEach(s => current.add(s.t));
+      ["Evening mood check", "Sleep check", "Morning mood check"].forEach(t => current.add(t));
+      const retired = [];
+      Object.keys(log).sort().forEach(d => ((log[d].habits || []).concat(log[d].eveningHabits || [])).forEach(h => {
+        const c = canonHabit(h);
+        if (!current.has(c) && retired.indexOf(c) < 0) retired.push(c);
+      }));
+      const didHabit = (e, name) => (e.habits || []).concat(e.eveningHabits || []).some(h => canonHabit(h) === name);
+      // cycle: period starts → "cycle day" (counting up from the last start) and "days to next period" (counting down)
+      const isP = k => !!(log[k] && log[k].period);
+      const starts = Object.keys(log).filter(k => isP(k) && !isP(shift(k, -1))).sort();
+      const daysBetween = (a, b) => Math.round((new Date(b + "T00:00:00") - new Date(a + "T00:00:00")) / 864e5);
+      // rows: every date with anything logged, plus the evening before any logged morning (it owns that night)
+      const dates = new Set();
+      Object.keys(log).forEach(k => {
+        dates.add(k);
+        const x = log[k];
+        if (has(x.sleepScore) || x.sleepRating || x.sleepNote || x.lateScreens === true || x.lateScreens === false || (x.nightFactors || []).length) dates.add(shift(k, -1));
       });
-      deliver("﻿" + rows.join("\r\n"), "ritual-data.csv", "text/csv;charset=utf-8");
+      graceSet.forEach(d => dates.add(d));
+      const quickLower = QUICK_SYMPTOMS.map(q => q.toLowerCase());
+      const esc = v => '"' + String(v).replace(/"/g, '""') + '"';
+      const header = [
+        "Date", "Day of week", "Weekend", "Day type", "Backfilled", "Period", "Cycle day", "Days to next period",
+        "Sleep score % (that night)", "Sleep rating (that night)", "Late screens (that night)", "What pulled me (that night)",
+        ...NIGHT_FACTORS.map(f => f + " (that night)"), "Sleep note (that night, old)",
+        "Wake time", "Wake up notes", "Morning mood (1-10)", "Most Important Task",
+        ...curMorning.map(h => "Morning: " + h),
+        ...curEvening.map(h => "Day: " + h),
+        "MIT accomplished", "MIT reason (if not)", "Steps", "Move type", "Move notes",
+        "Bonds (what we did)", "Out of the house (weekend)", "Monday's MIT (Sunday)",
+        "Mood of the day (1-10)", "Feeling", "Feeling why", "Memory keeping",
+        ...QUICK_SYMPTOMS.map(q => "Symptom: " + q), "Other body notes",
+        ...retired.map(h => "Old: " + h), "Old: Assimil lessons finished"
+      ];
+      const rows = [header.map(esc).join(",")];
+      Array.from(dates).sort().forEach(d => {
+        const e = log[d] || {};
+        const n = log[shift(d, 1)] || {};
+        const dow = DOW_NAMES[new Date(d + "T00:00:00").getDay()];
+        const last = starts.filter(st => st <= d).pop();
+        const next = starts.filter(st => st > d)[0];
+        const notes = (e.bodyNotes || []).map(x => String(x).trim());
+        const moveTypes = (e.moveTypes || []).map(t => t === "Workout" ? "Strength" : t);
+        const row = [
+          d, dow, (dow === "Saturday" || dow === "Sunday") ? "Yes" : "No",
+          graceMap[d] === "travel" ? "Travel" : graceMap[d] === "sick" ? "Sick" : "Home",
+          e.backfilled ? "Yes" : "",
+          e.period ? "Yes" : "",
+          last ? daysBetween(last, d) + 1 : "",
+          next ? daysBetween(d, next) : "",
+          has(n.sleepScore) ? n.sleepScore : "", n.sleepRating || "", yn(n.lateScreens), n.lateScreensWhy || "",
+          ...NIGHT_FACTORS.map(f => (n.nightFactors || []).indexOf(f) >= 0 ? "Yes" : ""), n.sleepNote || "",
+          e.wakeTime || "", e.wakeNotes || "", e.mood || "", e.mit || "",
+          ...curMorning.map(h => didHabit(e, h) ? "Yes" : ""),
+          ...curEvening.map(h => didHabit(e, h) ? "Yes" : ""),
+          yn(e.mitDone), e.mitReason || "", has(e.steps) ? e.steps : "", moveTypes.join("; "), e.moveActivity || "",
+          e.bondsNote || "", e.outOfHouse || "", e.mondayMit || "",
+          e.eveningMood || "", (e.feeling && FEEL_BY_KEY[e.feeling]) ? FEEL_BY_KEY[e.feeling].label : "", e.feelingWhy || "", e.memories || "",
+          ...quickLower.map(q => notes.some(x => x.toLowerCase() === q) ? "Yes" : ""),
+          notes.filter(x => quickLower.indexOf(x.toLowerCase()) < 0).join("; "),
+          ...retired.map(h => didHabit(e, h) ? "Yes" : ""),
+          (lessonsByDate[d] || []).join(" ")
+        ];
+        if (row.slice(3).some((v, i) => v !== "" && !(i === 0 && v === "Home"))) rows.push(row.map(esc).join(","));
+      });
+      deliver("﻿" + rows.join("\r\n"), "ritual-data-" + dateKey(new Date()) + ".csv", "text/csv;charset=utf-8");
+      markExported();
     } catch (e) {}
   }
 
@@ -2523,7 +2732,8 @@
 
   function exportJson() {
     try {
-      deliver(JSON.stringify(buildExportData(), null, 2), "ritual-data.json", "application/json");
+      deliver(JSON.stringify(buildExportData(), null, 2), "ritual-data-" + dateKey(new Date()) + ".json", "application/json");
+      markExported();
     } catch (e) {}
   }
 
