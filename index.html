@@ -245,14 +245,16 @@
   .lesson.done { background: var(--accent); border-color: var(--accent); color: #fff; }
   .lesson.next { border-color: var(--gold); color: var(--gold); }
 
-  .export-row[hidden] { display: none; }
+  .export-row[hidden], .grace-row[hidden] { display: none; }
   .export-last { font-size: .72rem; font-weight: 600; letter-spacing: 0; text-transform: none; color: var(--ink-soft); margin-left: 4px; }
   .export-last.stale { color: #c08a1e; }
   /* ---- Week tab: weekly review + monthly trends ---- */
   .wr-card { background: var(--card); border-radius: 16px; box-shadow: var(--shadow); padding: 16px 16px 6px; margin-bottom: 8px; color: var(--ink); }
-  .wr-title { display: flex; justify-content: space-between; align-items: baseline; }
-  .wr-title strong { font-size: 1.05rem; }
-  .wr-title span { font-size: .78rem; color: var(--ink-soft); }
+  .wr-title { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+  .wr-mid { display: flex; flex-direction: column; align-items: center; }
+  .wr-mid strong { font-size: 1.05rem; }
+  .wr-mid span { font-size: .78rem; color: var(--ink-soft); }
+  .wr-nav[disabled] { opacity: .3; cursor: default; }
   .wr-days { display: grid; grid-template-columns: repeat(7, 1fr); gap: 5px; margin: 12px 0 2px; font-size: .62rem; font-weight: 700; letter-spacing: .06em; color: var(--ink-soft); text-align: center; }
   .wr-row { padding: 10px 0; border-top: 1px solid var(--line); }
   .wr-head { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; margin-bottom: 7px; }
@@ -419,8 +421,18 @@
   }
   .cal-day.nolog { color: var(--done); text-decoration: line-through; opacity: .65; }
   .grace-btn.dd-nolog.on { background: #9aa3ab; border-color: #9aa3ab; color: #fff; }
-  .grace-btn.dd-edit { border-color: #b0765a; color: #b0765a; font-weight: 650; }
-  .grace-btn.dd-edit:hover { background: #b0765a; color: #fff; }
+  #ddEditRow { margin-top: 12px; justify-content: center; }
+  .edit-day { display: inline-flex; align-items: center; gap: 7px; text-align: left; cursor: pointer;
+    background: var(--accent-soft); border: 1px solid rgba(74, 124, 111, .25); border-radius: 9px;
+    padding: 5px 8px 5px 6px; font-family: inherit; color: var(--ink); transition: transform .12s, box-shadow .15s; }
+  .edit-day:active { transform: scale(.985); }
+  .edit-day:hover { box-shadow: 0 2px 10px rgba(74, 124, 111, .18); }
+  .edit-day-ico { flex: 0 0 20px; height: 20px; border-radius: 50%; background: var(--accent); color: #fff;
+    display: flex; align-items: center; justify-content: center; }
+  .edit-day-txt { flex: 1; display: flex; flex-direction: column; gap: 1px; }
+  .edit-day-txt strong { font-size: .76rem; font-weight: 650; }
+  .edit-day-txt span { font-size: .6rem; color: var(--ink-soft); }
+  .edit-day-arrow { font-size: .95rem; margin-left: 3px; line-height: 1; color: var(--accent); font-weight: 300; }
 
   .collapser { cursor: pointer; user-select: none; }
   .collapser .fold { font-size: .8rem; opacity: .7; margin-left: 8px; }
@@ -687,7 +699,7 @@
 
   <p class="footer-note">
     Consistency beats intensity<br><br>
-    <span id="appVersion">v2026-10-14.12</span>
+    <span id="appVersion">v2026-10-14.17</span>
   </p>
   </div><!-- /viewRitual -->
 
@@ -704,7 +716,7 @@
   </div>
 
   <div id="viewWeek" hidden>
-    <div class="phase-label">This week</div>
+    <div class="phase-label" id="weekLabel">This week</div>
     <div id="weekReview"></div>
     <div class="phase-label">This month <span class="phase-time">last 30 days</span></div>
     <div id="monthTrends" class="cal-card"></div>
@@ -726,7 +738,11 @@
       </div>
       <div class="cal-grid" id="calGrid"></div>
       <div class="grace-row" id="ddEditRow" hidden>
-        <button class="grace-btn dd-edit" id="ddEdit">✎ Edit this day (backfill)</button>
+        <button class="edit-day" id="ddEdit">
+          <span class="edit-day-ico"><svg width="10" height="10" viewBox="0 0 24 24" fill="none"><path d="M4 20h4L19 9a2.8 2.8 0 0 0-4-4L4 16v4Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="m13.5 6.5 4 4" stroke="currentColor" stroke-width="2"/></svg></span>
+          <span class="edit-day-txt"><strong id="ddEditTitle">Edit this day</strong></span>
+          <span class="edit-day-arrow" aria-hidden="true">›</span>
+        </button>
       </div>
       <div class="cal-legend">
         <span class="dot dg"></span> logged ·
@@ -735,7 +751,7 @@
         <span class="corner-dot pc-period"></span> period
       </div>
       <div class="cal-legend"><span id="calTotal">0 days logged</span></div>
-      <div class="assimil-note">Tap any day to mark travel, sick or period, and to add body notes. Yesterday and the day before can be backfilled from there.</div>
+      <div class="assimil-note">Tap any day to mark travel, sick or period, and to add body notes. Any past day can be backfilled from there.</div>
     </div>
 
     <div class="phase-label" id="ddLabel" hidden>Day Details</div>
@@ -968,12 +984,12 @@
   const yesterday = dateKey(new Date(ritualNow().getTime() - 864e5));
   const dayBefore = dateKey(new Date(ritualNow().getTime() - 2 * 864e5));
 
-  // ---- backfill mode: edit yesterday or the day before through the normal tabs ----
+  // ---- backfill mode: edit any past day through the normal tabs ----
   let BACKFILL = false;
   let backfillDate = null;
   try {
     const b = JSON.parse(localStorage.getItem("ritual-backfill") || "null");
-    if (b && b.date && (b.date === yesterday || b.date === dayBefore)) {
+    if (b && b.date && /^\d{4}-\d{2}-\d{2}$/.test(b.date) && b.date < realToday) {
       const ageMin = (Date.now() - new Date(b.setAt).getTime()) / 60000;
       if (ageMin >= 0 && ageMin < 30) { BACKFILL = true; backfillDate = b.date; }
       else localStorage.removeItem("ritual-backfill");
@@ -1914,8 +1930,10 @@
     document.getElementById("ddSick").classList.toggle("on", graceMap[selectedDate] === "sick");
     document.getElementById("ddTravel").classList.toggle("on", graceMap[selectedDate] === "travel");
     document.getElementById("ddPeriod").classList.toggle("on", !!(logGet()[selectedDate] || {}).period);
-    // backfill entry: only yesterday and the day before (the 48-hour memory window)
-    document.getElementById("ddEditRow").hidden = !(selectedDate === yesterday || selectedDate === dayBefore);
+    // backfill entry: any day before today, named so it's clear which day you're about to edit
+    document.getElementById("ddEditRow").hidden = !(selectedDate < realToday);
+    document.getElementById("ddEditTitle").textContent = "Edit " +
+      new Date(selectedDate + "T00:00:00").toLocaleDateString("en-GB", { weekday: "long", day: "numeric", month: "short" });
     // one-tap common symptoms: tap to add, tap again to remove (saved as normal body notes)
     const qwrap = document.getElementById("ddQuickChips");
     qwrap.innerHTML = "";
@@ -2161,8 +2179,9 @@
   });
 
   // ---- weekly review: shows on Saturday and Sunday at the top of the evening tab ----
+  let weekOffset = 0; // 0 = current week, 1 = last week, …
   function weekKeys(weeksBack) {
-    const base = new Date(today + "T00:00:00");
+    const base = new Date(realToday + "T00:00:00");
     const mon = new Date(base);
     mon.setDate(base.getDate() - ((base.getDay() + 6) % 7) - 7 * weeksBack);
     const out = [];
@@ -2196,7 +2215,7 @@
   function renderWeekReview() {
     const box = document.getElementById("weekReview");
     if (!box) return;
-    const keys = weekKeys(0);
+    const keys = weekKeys(weekOffset);
     const log = logGet();
     const cur = weekStats(keys);
     const screenFree = keys.filter(k => nightEntry(log, k).lateScreens === false).length;
@@ -2205,8 +2224,8 @@
       const cells = keys.map(k => {
         const e = night ? nightEntry(log, k) : (log[k] && !log[k].notLogged ? log[k] : {});
         const c = { cls: ["wr-cell"], inner: "" };
-        if (k === today) c.cls.push("today");
-        if (k > today) c.cls.push("future");
+        if (k === realToday) c.cls.push("today");
+        if (k > realToday) c.cls.push("future");
         cellFn(e, k, c);
         return '<div class="' + c.cls.join(" ") + '">' + c.inner + "</div>";
       }).join("");
@@ -2217,7 +2236,12 @@
     const bar = (v, goal) => v === null ? "" : '<div class="wr-goal' + (v >= goal ? " met" : "") + '"><i style="width:' + Math.min(100, Math.round(v / goal * 100)) + '%"></i></div>';
     const k1 = v => (Math.round(v / 100) / 10).toFixed(1) + "k";
     const outOf = (n, g) => n + ' <span class="wr-goaltxt">/ ' + g + "</span>";
-    let html = '<div class="wr-card"><div class="wr-title"><strong>Weekly review</strong><span>' + fmt(keys[0]) + " – " + fmt(keys[6]) + "</span></div>" +
+    const lbl = document.getElementById("weekLabel");
+    if (lbl) lbl.textContent = weekOffset === 0 ? "This week" : weekOffset === 1 ? "Last week" : weekOffset + " weeks ago";
+    let html = '<div class="wr-card"><div class="wr-title">' +
+      '<button class="cal-nav wr-nav" id="wrPrev" aria-label="Previous week">‹</button>' +
+      '<div class="wr-mid"><strong>Weekly review</strong><span>' + fmt(keys[0]) + " – " + fmt(keys[6]) + "</span></div>" +
+      '<button class="cal-nav wr-nav" id="wrNext" aria-label="Next week"' + (weekOffset === 0 ? " disabled" : "") + ">›</button></div>" +
       '<div class="wr-days"><span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span><span>S</span></div>';
     // sleep — average against an 85% goal
     html += row("Sleep", "", outOf(cur.sleepAvg !== null ? Math.round(cur.sleepAvg) + "%" : "–", "85%"), cur.sleepAvg !== null && cur.sleepAvg >= WEEK_GOALS.sleep, (e, k, c) => {
@@ -2256,6 +2280,8 @@
     });
     html += "</div>";
     box.innerHTML = html;
+    document.getElementById("wrPrev").addEventListener("click", () => { weekOffset++; renderWeekReview(); });
+    document.getElementById("wrNext").addEventListener("click", () => { if (weekOffset > 0) { weekOffset--; renderWeekReview(); } });
   }
 
   // ---- monthly trends: only the few patterns that clearly stand out (last 30 days, home days) ----
@@ -2265,7 +2291,7 @@
     const log = logGet();
     const days = [];
     for (let i = 0; i < 30; i++) {
-      const d = new Date(today + "T00:00:00"); d.setDate(d.getDate() - i);
+      const d = new Date(realToday + "T00:00:00"); d.setDate(d.getDate() - i);
       const k = dateKey(d), e = log[k];
       if (e && !e.notLogged && !graceMap[k]) days.push({ k, e, d });
     }
@@ -2348,7 +2374,7 @@
     if (!box) return;
     const log = logGet();
     const keys = [];
-    for (let i = 0; i < 180; i++) { const d = new Date(today + "T00:00:00"); d.setDate(d.getDate() - i); keys.push(dateKey(d)); }
+    for (let i = 0; i < 180; i++) { const d = new Date(realToday + "T00:00:00"); d.setDate(d.getDate() - i); keys.push(dateKey(d)); }
     const isP = k => !!(log[k] && log[k].period);
     const starts = keys.filter(k => isP(k) && !isP(prevKey(k)));
     if (starts.length < 2) {
@@ -2560,7 +2586,7 @@
     document.body.classList.toggle("evening-mode", name === "evening");
     document.body.classList.toggle("morning-mode", name === "morning");
     if (name === "evening") refreshMitDisplay();
-    if (name === "week") { renderWeekReview(); renderMonthTrends(); renderCycle(); }
+    if (name === "week") { weekOffset = 0; renderWeekReview(); renderMonthTrends(); renderCycle(); }
     if (name === "calendar") { renderLastExport(); renderCalendar(); renderMemories(); renderWeek(); renderSleep(); renderMood(); renderExercise(); renderSyncWarn(); }
     try { window.scrollTo(0, 0); } catch (e) {}
     setTimeout(fitAllBoxes, 0);
